@@ -3,15 +3,15 @@
 	"id": "inscriptions",
 	"version": "${version}",
 	"name": "Inscriptions",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "Enchantments rework",
 	"authors": [
-		"Me!"
+		"MonkeySKL"
 	],
 	"contact": {
 		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"sources": "https://github.com/Monkeyboi5527/Inscriptions-26.1.git"
 	},
-	"license": "CC0-1.0",
+	"license": "MIT",
 	"icon": "assets/inscriptions/icon.png",
 	"environment": "*",
 	"entrypoints": {
@@ -20,6 +20,9 @@
 		],
 		"fabric-datagen": [
 			"net.monkeyskl.inscriptions.InscriptionsDataGenerator"
+		],
+		"client": [
+			"net.monkeyskl.inscriptions.InscriptionsClient"
 		]
 	},
 	"mixins": [
