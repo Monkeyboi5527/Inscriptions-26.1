@@ -24,8 +24,8 @@ public class ModEnchantments {
 
         register(context, TEST, Enchantment.enchantment(Enchantment.definition(
                 items.getOrThrow(ItemTags.MELEE_WEAPON_ENCHANTABLE),
-                10,
                 1,
+                3,
                 Enchantment.dynamicCost(1, 11),
                 Enchantment.dynamicCost(12, 11),
                 1,

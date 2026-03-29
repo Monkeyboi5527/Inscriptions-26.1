@@ -9,6 +9,17 @@ import net.monkeyskl.inscriptions.item.ModItems;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
+/**
+ * IDEAS: <p>
+ *  	-Over Enchanting <p>
+ *  	-Enchanting = Minecraft's version of magic <p>
+ *  	-Custom Enchants<p>
+ *  	-Enchantment books like spells or something<p>
+ *  	- <p>
+ *  	- <p>
+ *  	- <p>
+ * */
 public class Inscriptions implements ModInitializer {
 	public static final String MOD_ID = "inscriptions";
 
