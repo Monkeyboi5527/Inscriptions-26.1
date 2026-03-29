@@ -42,7 +42,8 @@ public class ModBlocks {
         ResourceKey<Item> key = ResourceKey.create(Registries.ITEM,
                 Identifier.fromNamespaceAndPath(Inscriptions.MOD_ID, name));
         Registry.register(BuiltInRegistries.ITEM, key,
-                new BlockItem(block, new Item.Properties().setId(key)));
+                new BlockItem(block, new Item.Properties()
+                        .setId(key)));
     }
 
 
