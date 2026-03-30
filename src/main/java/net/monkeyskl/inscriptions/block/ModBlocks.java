@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 import net.monkeyskl.inscriptions.Inscriptions;
+import net.monkeyskl.inscriptions.block.custom.InscriptionTableBlock;
 
 import java.util.function.Function;
 
@@ -24,6 +25,15 @@ public class ModBlocks {
                     .requiresCorrectToolForDrops()
                     .strength(50.0F, 1200.0F)
                     .sound(SoundType.NETHERITE_BLOCK)
+    );
+
+    public static final Block INSCRIPTION_TABLE = registerBlock(
+            "inscription_table",
+            InscriptionTableBlock::new,
+            BlockBehaviour.Properties.of()
+                    .strength(3.5f)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)
     );
 
     private static Block registerBlock(String name, BlockBehaviour.Properties properties) {
