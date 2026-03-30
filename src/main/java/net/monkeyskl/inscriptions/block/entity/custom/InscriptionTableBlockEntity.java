@@ -7,11 +7,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.monkeyskl.inscriptions.block.custom.InscriptionTableBlock;
 import net.monkeyskl.inscriptions.block.entity.ImplementedInventory;
 import org.jspecify.annotations.Nullable;
 
 public class InscriptionTableBlockEntity extends BaseEntityBlock implements ImplementedInventory {
     private final NonNullList<ItemStack> inventory = NonNullList.withSize(2, ItemStack.EMPTY);
+    public static final MapCodec<InscriptionTableBlockEntity> CODEC = InscriptionTableBlock.simpleCodec(InscriptionTableBlockEntity::new);
 
     public InscriptionTableBlockEntity(Properties properties) {
         super(properties);
@@ -25,7 +27,7 @@ public class InscriptionTableBlockEntity extends BaseEntityBlock implements Impl
 
     @Override
     protected MapCodec<? extends BaseEntityBlock> codec() {
-        return null;
+        return CODEC;
     }
 
     @Override

@@ -1,6 +1,7 @@
 {
   "item.inscriptions.test_block": "Test Block",
   "item.inscriptions.test_item": "Test Item",
+  "item.inscriptions.inscription_table": "Inscription Table",
   "enchantment.inscriptions.test": "Test",
   "itemgroup.inscriptions.inscriptions": "Inscriptions"
 }

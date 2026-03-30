@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "inscriptions:block/inscription_table"
+    }
+  }
+}
