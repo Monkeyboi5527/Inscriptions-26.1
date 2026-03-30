@@ -27,6 +27,7 @@ public class ModCreativeModeTab {
                 .displayItems((context, output) -> {
                     output.accept(ModBlocks.TEST_BLOCK.asItem());
                     output.accept(ModItems.TEST_ITEM);
+                    output.accept(ModBlocks.INSCRIPTION_TABLE.asItem());
                 })
                 .build()
         );
