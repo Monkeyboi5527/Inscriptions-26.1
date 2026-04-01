@@ -37,9 +37,10 @@ public class InscriptionTableBlock extends BaseEntityBlock {
             BlockEntity blockEntity = level.getBlockEntity(pos);
             if (blockEntity instanceof InscriptionTableBlockEntity inscriptionTable) {
                 player.openMenu(inscriptionTable);
+                return InteractionResult.SUCCESS;
             }
         }
-        return InteractionResult.SUCCESS;
+        return InteractionResult.FAIL;
     }
 
     @Nullable

@@ -8,6 +8,7 @@ import net.minecraft.world.entity.ContainerUser;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -54,7 +55,7 @@ public class InscriptionTableBlockEntity extends BlockEntity implements Implemen
 
     @Override
     public @Nullable AbstractContainerMenu createMenu(int containerId, Inventory inventory, Player player) {
-        return new InscriptionTableMenu(containerId, inventory);
+        return new InscriptionTableMenu(containerId, inventory, ContainerLevelAccess.create(level, getBlockPos()));
     }
 
 }

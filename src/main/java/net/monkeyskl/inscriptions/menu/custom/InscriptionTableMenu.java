@@ -3,17 +3,22 @@ package net.monkeyskl.inscriptions.menu.custom;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.monkeyskl.inscriptions.block.ModBlocks;
 import net.monkeyskl.inscriptions.menu.ModMenuTypes;
 
 public class InscriptionTableMenu extends AbstractContainerMenu {
     private final Inventory inventory;
+    public final ContainerLevelAccess access;
 
-    public InscriptionTableMenu(int containerId, Inventory inventory) {
+    public InscriptionTableMenu(int containerId, Inventory inventory, ContainerLevelAccess access) {
         super(ModMenuTypes.INSCRIPTION_TABLE, containerId);
         this.inventory = inventory;
+        this.access = access;
     }
+
 
     @Override
     public ItemStack quickMoveStack(Player player, int slotIndex) {
@@ -42,7 +47,7 @@ public class InscriptionTableMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
-        return true;
+        return stillValid(this.access, player, ModBlocks.INSCRIPTION_TABLE);
     }
 
 }
