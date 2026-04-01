@@ -14,6 +14,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.monkeyskl.inscriptions.block.entity.custom.InscriptionTableBlockEntity;
 import org.jetbrains.annotations.Nullable;
 
 public class InscriptionTableBlock extends BaseEntityBlock {
@@ -32,15 +33,19 @@ public class InscriptionTableBlock extends BaseEntityBlock {
     @Override
     public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos,
                                             Player player, BlockHitResult hit) {
-
+        if (!level.isClientSide()) {
+            BlockEntity blockEntity = level.getBlockEntity(pos);
+            if (blockEntity instanceof InscriptionTableBlockEntity inscriptionTable) {
+                player.openMenu(inscriptionTable);
+            }
+        }
         return InteractionResult.SUCCESS;
     }
 
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return null;
-//                new InscriptionTableBlockEntity();
+        return new InscriptionTableBlockEntity(pos, state);
     }
 
     @Override
