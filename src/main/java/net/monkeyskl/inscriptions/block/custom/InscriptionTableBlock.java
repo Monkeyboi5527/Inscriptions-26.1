@@ -21,6 +21,7 @@ public class InscriptionTableBlock extends BaseEntityBlock {
     public static final MapCodec<InscriptionTableBlock> CODEC = InscriptionTableBlock.simpleCodec(InscriptionTableBlock::new);
     public static final VoxelShape SHAPE = Block.box(0, 0, 0, 16, 12, 16);
 
+
     public InscriptionTableBlock(Properties properties) {
         super(properties);
     }
@@ -30,6 +31,8 @@ public class InscriptionTableBlock extends BaseEntityBlock {
         return CODEC;
     }
 
+
+
     @Override
     public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos,
                                             Player player, BlockHitResult hit) {
@@ -37,10 +40,10 @@ public class InscriptionTableBlock extends BaseEntityBlock {
             BlockEntity blockEntity = level.getBlockEntity(pos);
             if (blockEntity instanceof InscriptionTableBlockEntity inscriptionTable) {
                 player.openMenu(inscriptionTable);
-                return InteractionResult.SUCCESS;
+
             }
         }
-        return InteractionResult.FAIL;
+        return InteractionResult.SUCCESS;
     }
 
     @Nullable

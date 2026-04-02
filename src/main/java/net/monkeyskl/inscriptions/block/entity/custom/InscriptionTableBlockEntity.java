@@ -20,7 +20,7 @@ import net.monkeyskl.inscriptions.menu.custom.InscriptionTableMenu;
 import org.jspecify.annotations.Nullable;
 
 public class InscriptionTableBlockEntity extends BlockEntity implements ImplementedInventory, MenuProvider {
-    private final NonNullList<ItemStack> inventory = NonNullList.withSize(2, ItemStack.EMPTY);
+    private final NonNullList<ItemStack> inventory = NonNullList.withSize(3, ItemStack.EMPTY);
 
 
 
@@ -31,6 +31,11 @@ public class InscriptionTableBlockEntity extends BlockEntity implements Implemen
     @Override
     public NonNullList<ItemStack> getItems() {
         return inventory;
+    }
+
+    @Override
+    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+        super.preRemoveSideEffects(pos, state);
     }
 
     @Override
@@ -55,7 +60,7 @@ public class InscriptionTableBlockEntity extends BlockEntity implements Implemen
 
     @Override
     public @Nullable AbstractContainerMenu createMenu(int containerId, Inventory inventory, Player player) {
-        return new InscriptionTableMenu(containerId, inventory, ContainerLevelAccess.create(level, getBlockPos()));
+        return new InscriptionTableMenu(containerId, inventory, ContainerLevelAccess.create(level, getBlockPos()), this);
     }
 
 }
