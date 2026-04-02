@@ -16,7 +16,7 @@ public class InscriptionTableMenu extends AbstractContainerMenu {
     private final ContainerLevelAccess access;
     private final Container container;
 
-
+    //TEST
     public InscriptionTableMenu(int containerId, Inventory inventory) {
         this(containerId, inventory, ContainerLevelAccess.NULL, new SimpleContainer(3));
     }
