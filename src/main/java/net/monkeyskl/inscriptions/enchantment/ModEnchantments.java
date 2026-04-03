@@ -9,14 +9,14 @@ import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
-import net.minecraft.world.item.enchantment.EnchantmentTarget;
+import net.minecraft.world.item.enchantment.*;
+import net.minecraft.world.item.enchantment.effects.AddValue;
 import net.monkeyskl.inscriptions.Inscriptions;
 import net.monkeyskl.inscriptions.enchantment.custom.TestEnchantmentEffect;
 
 public class ModEnchantments {
     public static final ResourceKey<Enchantment> TEST = key("test");
+    public static final ResourceKey<Enchantment> VORPAL = key("vorpal");
 
     public static void bootstrap(BootstrapContext<Enchantment> context) {
         HolderGetter<Enchantment> enchantments = context.lookup(Registries.ENCHANTMENT);
@@ -35,13 +35,25 @@ public class ModEnchantments {
                         EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM,
                         new TestEnchantmentEffect()));
 
+        register(context, VORPAL, Enchantment.enchantment(Enchantment.definition(
+                                items.getOrThrow(ItemTags.SHARP_WEAPON_ENCHANTABLE),
+                                items.getOrThrow(ItemTags.MELEE_WEAPON_ENCHANTABLE),
+                                10,
+                                6,
+                                Enchantment.dynamicCost(1, 11),
+                                Enchantment.dynamicCost(21, 11),
+                                1,
+                                EquipmentSlotGroup.MAINHAND))
+                        .exclusiveWith(enchantments.getOrThrow(EnchantmentTags.DAMAGE_EXCLUSIVE))
+                        .withEffect(EnchantmentEffectComponents.DAMAGE,
+                                new AddValue(LevelBasedValue.perLevel(1.0F, 0.5F))));
     }
 
-    public static void register(final BootstrapContext<Enchantment> context, final ResourceKey<Enchantment> key, final Enchantment.Builder builder) {
+    public static void register(BootstrapContext<Enchantment> context, ResourceKey<Enchantment> key, Enchantment.Builder builder) {
         context.register(key, builder.build(key.identifier()));
     }
 
-    public static ResourceKey<Enchantment> key(final String id) {
+    public static ResourceKey<Enchantment> key(String id) {
         return ResourceKey.create(Registries.ENCHANTMENT, Identifier.fromNamespaceAndPath(Inscriptions.MOD_ID,id));
     }
 
