@@ -18,12 +18,27 @@ import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.monkeyskl.inscriptions.entity.custom.DummyEntity;
 import org.jspecify.annotations.Nullable;
 
 public class DummyRenderer extends LivingEntityRenderer<DummyEntity, ArmorStandRenderState, DummyModel> {
-    public static final Identifier TEXTURE =
+    public static final Identifier DEFAULT =
             Identifier.fromNamespaceAndPath("inscriptions", "textures/entity/dummy/dummy.png");
+    public static final Identifier LEATHER_HELMET =
+            Identifier.fromNamespaceAndPath("inscriptions", "textures/entity/dummy/dummy_leather.png");
+    public static final Identifier COPPER_HELMET =
+            Identifier.fromNamespaceAndPath("inscriptions", "textures/entity/dummy/dummy_copper.png");
+    public static final Identifier IRON_HELMET =
+            Identifier.fromNamespaceAndPath("inscriptions", "textures/entity/dummy/dummy_iron.png");
+    public static final Identifier GOLD_HELMET =
+            Identifier.fromNamespaceAndPath("inscriptions", "textures/entity/dummy/dummy_gold.png");
+    public static final Identifier DIAMOND_HELMET =
+            Identifier.fromNamespaceAndPath("inscriptions", "textures/entity/dummy/dummy_diamond.png");
+    public static final Identifier NETHERITE_HELMET =
+            Identifier.fromNamespaceAndPath("inscriptions", "textures/entity/dummy/dummy_netherite.png");
+
 
 
     public DummyRenderer(EntityRendererProvider.Context context) {
@@ -53,7 +68,21 @@ public class DummyRenderer extends LivingEntityRenderer<DummyEntity, ArmorStandR
 
     @Override
     public Identifier getTextureLocation(ArmorStandRenderState state) {
-        return TEXTURE;
+        ItemStack helmet = state.headEquipment;
+        if (helmet.is(Items.LEATHER_HELMET)) {
+            return LEATHER_HELMET;
+        } else if (helmet.is(Items.COPPER_HELMET)) {
+            return COPPER_HELMET;
+        } else if (helmet.is(Items.IRON_HELMET)) {
+            return IRON_HELMET;
+        } else if (helmet.is(Items.GOLDEN_HELMET)) {
+            return GOLD_HELMET;
+        }  else if (helmet.is(Items.DIAMOND_HELMET)) {
+            return DIAMOND_HELMET;
+        } else if (helmet.is(Items.NETHERITE_HELMET)) {
+            return NETHERITE_HELMET;
+        }
+        return DEFAULT;
     }
 
     @Override
