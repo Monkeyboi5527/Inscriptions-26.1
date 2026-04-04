@@ -5,6 +5,7 @@ import net.fabricmc.api.ModInitializer;
 import net.monkeyskl.inscriptions.block.ModBlocks;
 import net.monkeyskl.inscriptions.block.entity.ModBlockEntities;
 import net.monkeyskl.inscriptions.enchantment.ModEnchantmentEffects;
+import net.monkeyskl.inscriptions.entity.ModEntities;
 import net.monkeyskl.inscriptions.item.ModCreativeModeTab;
 import net.monkeyskl.inscriptions.item.ModItems;
 import net.monkeyskl.inscriptions.menu.ModMenuTypes;
@@ -42,5 +43,6 @@ public class Inscriptions implements ModInitializer {
 		ModBlockEntities.registerBlockEntities();
 		ModMenuTypes.registerMenuTypes();
 		ModEnchantmentEffects.registerEnchantmentEffects();
+		ModEntities.registerModEntities();
 	}
 }

@@ -7,13 +7,18 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
 import net.monkeyskl.inscriptions.Inscriptions;
+import net.monkeyskl.inscriptions.item.custom.DummyItem;
 
 import java.util.function.Function;
 
 public class ModItems {
 
     public static final Item TEST_ITEM = registerItem("test_item", new Item.Properties());
+    public static final Item DUMMY = registerItem("dummy", DummyItem::new);
 
+    private static Item registerItem(String name, Function<Item.Properties, Item> factory) {
+        return registerItem(name, factory, new Item.Properties());
+    }
 
     private static Item registerItem(String name, Item.Properties properties) {
         return registerItem(name, Item::new, properties);
