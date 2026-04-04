@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.monkeyskl.inscriptions.entity.ModEntities;
+import net.monkeyskl.inscriptions.entity.cilent.DummyArmorModel;
 import net.monkeyskl.inscriptions.entity.cilent.DummyModel;
 import net.monkeyskl.inscriptions.entity.cilent.DummyRenderer;
 import net.monkeyskl.inscriptions.entity.custom.DummyEntity;
@@ -20,5 +21,12 @@ public class InscriptionsClient implements ClientModInitializer {
         FabricDefaultAttributeRegistry.register(ModEntities.DUMMY, DummyEntity.createAttributes());
         EntityRendererRegistry.register(ModEntities.DUMMY, DummyRenderer::new);
         ModelLayerRegistry.registerModelLayer(DummyModel.LAYER_LOCATION, DummyModel::createBodyLayer);
+        ModelLayerRegistry.registerModelLayer(DummyArmorModel.LAYER_LOCATION, DummyArmorModel::createBodyLayer);
+        ModelLayerRegistry.registerModelLayer(DummyArmorModel.SMALL_LAYER_LOCATION, DummyArmorModel::createBodyLayer);
+        ModelLayerRegistry.registerModelLayer(DummyArmorModel.HEAD_LAYER, DummyArmorModel::createBodyLayer);
+        ModelLayerRegistry.registerModelLayer(DummyArmorModel.CHEST_LAYER, DummyArmorModel::createBodyLayer);
+        ModelLayerRegistry.registerModelLayer(DummyArmorModel.LEGS_LAYER, DummyArmorModel::createLegsLayer);
+        ModelLayerRegistry.registerModelLayer(DummyArmorModel.FEET_LAYER, DummyArmorModel::createBodyLayer);
+
     }
 }

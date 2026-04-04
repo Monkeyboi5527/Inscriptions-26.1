@@ -52,12 +52,12 @@ public class DummyModel extends ArmorStandModel {
 		MeshDefinition mesh = HumanoidModel.createMesh(CubeDeformation.NONE, 0.0F);
 		PartDefinition root = mesh.getRoot();
 
-		// Override standard parts at ROOT level (ArmorStandModel expects these here)
+
 		PartDefinition head = root.addOrReplaceChild("head", CubeListBuilder.create().texOffs(32, 59)
 						.addBox(-1.0F, -7.0F, -1.0F, 2.0F, 7.0F, 2.0F, CubeDeformation.NONE),
 				PartPose.offset(0.0F, 1.0F, 0.0F));
 
-		// Add your custom children to head
+
 		PartDefinition Pumpkin = head.addOrReplaceChild("Pumpkin", CubeListBuilder.create().texOffs(32, 41)
 						.addBox(-4.0F, -3.0F, -4.0F, 8.0F, 1.0F, 8.0F, CubeDeformation.NONE),
 				PartPose.offset(0.0F, -7.0F, 0.0F));
@@ -80,7 +80,7 @@ public class DummyModel extends ArmorStandModel {
 						.texOffs(0, 41).addBox(-4.0F, -13.0F, -4.0F, 8.0F, 2.0F, 8.0F, CubeDeformation.NONE),
 				PartPose.ZERO);
 
-		// Standard parts at ROOT level
+
 		root.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 51)
 						.addBox(-6.0F, 0.0F, -1.5F, 12.0F, 3.0F, 3.0F, CubeDeformation.NONE),
 				PartPose.ZERO);
@@ -105,7 +105,7 @@ public class DummyModel extends ArmorStandModel {
 						.addBox(-1.2F, 0.0F, -1.0F, 2.0F, 11.0F, 2.0F, CubeDeformation.NONE),
 				PartPose.offset(-1.85F, 12.0F, 0.0F));
 
-		// ArmorStand specific parts at ROOT level
+
 		root.addOrReplaceChild("right_body_stick", CubeListBuilder.create().texOffs(40, 59)
 						.addBox(1.0F, 3.0F, -1.0F, 2.0F, 7.0F, 2.0F, CubeDeformation.NONE),
 				PartPose.ZERO);
