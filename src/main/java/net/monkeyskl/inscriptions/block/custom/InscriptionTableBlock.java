@@ -15,6 +15,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.monkeyskl.inscriptions.block.entity.custom.InscriptionTableBlockEntity;
+import net.monkeyskl.inscriptions.particle.ModParticles;
 import org.jetbrains.annotations.Nullable;
 
 public class InscriptionTableBlock extends BaseEntityBlock {
@@ -40,7 +41,9 @@ public class InscriptionTableBlock extends BaseEntityBlock {
             BlockEntity blockEntity = level.getBlockEntity(pos);
             if (blockEntity instanceof InscriptionTableBlockEntity inscriptionTable) {
                 player.openMenu(inscriptionTable);
-
+                level.addParticle(ModParticles.NUMBER_PARTICLE, pos.getX(), pos.getY(),pos.getZ(), 0,1,0);
+                level.addParticle(ModParticles.NUMBER_PARTICLE, pos.getX(), pos.getY(),pos.getZ(), 0,1,0);
+                level.addParticle(ModParticles.NUMBER_PARTICLE, pos.getX(), pos.getY(),pos.getZ(), 0,1,0);
             }
         }
         return InteractionResult.SUCCESS;

@@ -29,4 +29,9 @@ public class DummyEntity extends ArmorStand {
         }
         super.setItemSlot(slot, itemStack);
     }
+
+    @Override
+    public int getArmorValue() {
+        return super.getArmorValue();
+    }
 }

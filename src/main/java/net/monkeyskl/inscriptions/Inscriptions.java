@@ -9,6 +9,7 @@ import net.monkeyskl.inscriptions.entity.ModEntities;
 import net.monkeyskl.inscriptions.item.ModCreativeModeTab;
 import net.monkeyskl.inscriptions.item.ModItems;
 import net.monkeyskl.inscriptions.menu.ModMenuTypes;
+import net.monkeyskl.inscriptions.particle.ModParticles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,5 +45,6 @@ public class Inscriptions implements ModInitializer {
 		ModMenuTypes.registerMenuTypes();
 		ModEnchantmentEffects.registerEnchantmentEffects();
 		ModEntities.registerModEntities();
+		ModParticles.registerModParticles();
 	}
 }
