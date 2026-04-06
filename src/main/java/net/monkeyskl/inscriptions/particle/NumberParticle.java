@@ -2,8 +2,6 @@ package net.monkeyskl.inscriptions.particle;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.particle.v1.FabricSpriteSet;
-import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
@@ -18,7 +16,7 @@ public class NumberParticle extends SimpleAnimatedParticle {
 
     private NumberParticle(ClientLevel level, double x, double y, double z,
                            double xa, double ya, double za, SpriteSet sprites) {
-        super(level, x, y, z, sprites, 0.0F);  // 0.0F = no gravity
+        super(level, x, y, z, sprites, 0.0F); 
         this.xd = xa;
         this.yd = ya;
         this.zd = za;

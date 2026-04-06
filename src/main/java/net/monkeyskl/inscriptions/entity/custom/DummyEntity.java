@@ -1,11 +1,28 @@
 package net.monkeyskl.inscriptions.entity.custom;
 
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.decoration.ArmorStand;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.gamerules.GameRules;
+import net.monkeyskl.inscriptions.item.ModItems;
+import net.monkeyskl.inscriptions.particle.ModParticles;
 
 public class DummyEntity extends ArmorStand {
 
@@ -20,6 +37,135 @@ public class DummyEntity extends ArmorStand {
     @Override
     public boolean showArms() {
         return true;
+    }
+
+    @Override
+    public ItemStack getPickResult() {
+        return new ItemStack(ModItems.DUMMY);
+    }
+
+    private void playBrokenSound() {
+        this.level().playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.ARMOR_STAND_BREAK, this.getSoundSource(), 1.0F, 1.0F);
+    }
+
+    private void brokenByPlayer(ServerLevel level, DamageSource source) {
+        ItemStack result = new ItemStack(ModItems.DUMMY);
+        result.set(DataComponents.CUSTOM_NAME, this.getCustomName());
+        Block.popResource(this.level(), this.blockPosition(), result);
+        this.brokenByAnything(level, source);
+    }
+
+    private void brokenByAnything(ServerLevel level, DamageSource source) {
+        this.playBrokenSound();
+        this.dropAllDeathLoot(level, source);
+
+        for (EquipmentSlot slot : EquipmentSlot.VALUES) {
+            ItemStack itemStack = this.equipment.set(slot, ItemStack.EMPTY);
+            if (!itemStack.isEmpty() && !EnchantmentHelper.has(itemStack, EnchantmentEffectComponents.PREVENT_EQUIPMENT_DROP)) {
+                Block.popResource(this.level(), this.blockPosition().above(), itemStack);
+            }
+        }
+    }
+
+    private void causeDamage(ServerLevel level, DamageSource source, float dmg) {
+        float health = this.getHealth();
+        health -= dmg;
+        if (health <= 0.5F) {
+            this.brokenByAnything(level, source);
+            this.kill(level);
+        } else {
+            this.setHealth(health);
+            this.gameEvent(GameEvent.ENTITY_DAMAGE, source.getEntity());
+        }
+    }
+
+    private void showBreakingParticles() {
+        if (this.level() instanceof ServerLevel) {
+            ((ServerLevel)this.level())
+                    .sendParticles(
+                            new BlockParticleOption(ParticleTypes.BLOCK, Blocks.OAK_PLANKS.defaultBlockState()),
+                            this.getX(),
+                            this.getY(0.6666666666666666),
+                            this.getZ(),
+                            10,
+                            this.getBbWidth() / 4.0F,
+                            this.getBbHeight() / 4.0F,
+                            this.getBbWidth() / 4.0F,
+                            0.05
+                    );
+        }
+    }
+
+    @Override
+    public boolean hurtServer(ServerLevel level, DamageSource source, float damage) {
+        this.playSound(SoundEvents.WARDEN_HURT, 3.0F, 1.0F);
+        level.sendParticles(
+                ModParticles.NUMBER_PARTICLE,
+                this.getX(),
+                this.getY() + 2,
+                this.getZ(),
+                1,
+                0,
+                0,
+                0,
+                0
+        );
+        if (this.isRemoved()) {
+            return false;
+        } else if (!level.getGameRules().get(GameRules.MOB_GRIEFING) && source.getEntity() instanceof Mob) {
+            return false;
+        } else if (source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
+            this.kill(level);
+            return false;
+        } else if (this.isInvulnerableTo(level, source) || this.isMarker()) {
+            return false;
+        } else if (source.is(DamageTypeTags.IS_EXPLOSION)) {
+            this.brokenByAnything(level, source);
+            this.kill(level);
+            return false;
+        } else if (source.is(DamageTypeTags.IGNITES_ARMOR_STANDS)) {
+            if (this.isOnFire()) {
+                this.causeDamage(level, source, 0.15F);
+            } else {
+                this.igniteForSeconds(5.0F);
+            }
+
+            return false;
+        } else if (source.is(DamageTypeTags.BURNS_ARMOR_STANDS) && this.getHealth() > 0.5F) {
+            this.causeDamage(level, source, 4.0F);
+            return false;
+        } else {
+            boolean allowIncrementalBreaking = source.is(DamageTypeTags.CAN_BREAK_ARMOR_STAND);
+            boolean shouldKill = source.is(DamageTypeTags.ALWAYS_KILLS_ARMOR_STANDS);
+            if (!allowIncrementalBreaking && !shouldKill) {
+                return false;
+            } else if (source.getEntity() instanceof Player player && !player.getAbilities().mayBuild) {
+                return false;
+            } else if (source.isCreativePlayer()) {
+                this.playBrokenSound();
+                this.showBreakingParticles();
+                this.kill(level);
+                return true;
+            } else {
+                long time = level.getGameTime();
+                long timeSinceHit = time - this.lastHit;
+                boolean isCrouching = source.getEntity() instanceof Player player && player.isCrouching();
+                long requiredCooldown = isCrouching ? 5L : 1L;
+
+                if (!shouldKill && timeSinceHit > requiredCooldown) {
+                    level.broadcastEntityEvent(this, (byte) 32);
+                    this.gameEvent(GameEvent.ENTITY_DAMAGE, source.getEntity());
+                    this.lastHit = time;
+                } else {
+                    this.brokenByPlayer(level, source);
+                    this.showBreakingParticles();
+                    this.kill(level);
+                }
+
+                return true;
+            }
+        }
+
     }
 
     @Override
