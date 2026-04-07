@@ -3,6 +3,7 @@ package net.monkeyskl.inscriptions.entity.custom;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
@@ -97,15 +98,20 @@ public class DummyEntity extends ArmorStand {
     }
 
     @Override
+    public void knockback(double power, double xd, double zd) {
+        // NO KNOCKBACK
+    }
+
+    @Override
     public boolean hurtServer(ServerLevel level, DamageSource source, float damage) {
-        this.playSound(SoundEvents.WARDEN_HURT, 3.0F, 1.0F);
+
         level.sendParticles(
                 ModParticles.NUMBER_PARTICLE,
                 this.getX(),
                 this.getY() + 2,
                 this.getZ(),
                 1,
-                0,
+                1,
                 0,
                 0,
                 0
@@ -147,6 +153,9 @@ public class DummyEntity extends ArmorStand {
                 this.kill(level);
                 return true;
             } else {
+                if (source.getEntity() instanceof Player player) {
+                    player.sendSystemMessage(Component.literal(player.getName().getString() + " dealt " + Math.round(damage * 10) / 10.0 + " hearts of damage"));
+                }
                 long time = level.getGameTime();
                 long timeSinceHit = time - this.lastHit;
                 boolean isCrouching = source.getEntity() instanceof Player player && player.isCrouching();
