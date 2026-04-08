@@ -8,9 +8,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.player.Player;
@@ -23,9 +21,13 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.gamerules.GameRules;
 import net.monkeyskl.inscriptions.item.ModItems;
-import net.monkeyskl.inscriptions.particle.ModParticles;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DummyEntity extends ArmorStand {
+
+    private static final List<Display.TextDisplay> DAMAGE_DISPLAYS = new ArrayList<>();
 
     public DummyEntity(EntityType<? extends ArmorStand> type, Level level) {
         super(type, level);
@@ -105,17 +107,34 @@ public class DummyEntity extends ArmorStand {
     @Override
     public boolean hurtServer(ServerLevel level, DamageSource source, float damage) {
 
-        level.sendParticles(
-                ModParticles.NUMBER_PARTICLE,
-                this.getX(),
-                this.getY() + 2,
-                this.getZ(),
-                1,
-                1,
-                0,
-                0,
-                0
-        );
+        if (level instanceof ServerLevel) {
+            Display.TextDisplay display = EntityType.TEXT_DISPLAY.create(level, EntitySpawnReason.COMMAND);
+
+            if (display != null) {
+                display.setText(Component.literal(String.valueOf(damage)));
+                display.setPos(xo, yo + 2, zo);
+
+                display.setBillboardConstraints(Display.BillboardConstraints.CENTER);
+
+                display.setDeltaMovement(0, 0.05, 0);
+
+                level.addFreshEntity(display);
+
+                DAMAGE_DISPLAYS.add(display);
+
+                DAMAGE_DISPLAYS.removeIf(e -> e == null || e.isRemoved());
+
+                if (DAMAGE_DISPLAYS.size() > 5) {
+                    Display.TextDisplay oldest = DAMAGE_DISPLAYS.get(0);
+
+                    if (oldest != null && !oldest.isRemoved()) {
+                        oldest.discard();
+                    }
+
+                    DAMAGE_DISPLAYS.remove(0);
+                }
+            }
+        }
         if (this.isRemoved()) {
             return false;
         } else if (!level.getGameRules().get(GameRules.MOB_GRIEFING) && source.getEntity() instanceof Mob) {
