@@ -27,7 +27,8 @@ import java.util.List;
 
 public class DummyEntity extends ArmorStand {
 
-    private static final List<Display.TextDisplay> DAMAGE_DISPLAYS = new ArrayList<>();
+    private final List<Display.TextDisplay> DAMAGE_DISPLAYS = new ArrayList<>();
+    private final java.util.Map<Display.TextDisplay, Integer> DISPLAY_FADE_TICKS = new java.util.HashMap<>();
 
     public DummyEntity(EntityType<? extends ArmorStand> type, Level level) {
         super(type, level);
@@ -107,32 +108,36 @@ public class DummyEntity extends ArmorStand {
     @Override
     public boolean hurtServer(ServerLevel level, DamageSource source, float damage) {
 
+        // Temporary replacement for NumberParticle
         if (level instanceof ServerLevel) {
+
+            DAMAGE_DISPLAYS.removeIf(e -> e == null || e.isRemoved());
+
+            if (DAMAGE_DISPLAYS.size() >= 5) {
+                Display.TextDisplay oldest = DAMAGE_DISPLAYS.get(0);
+                if (oldest != null && !oldest.isRemoved()) {
+                    oldest.discard();
+                    DISPLAY_FADE_TICKS.remove(oldest);
+                }
+                DAMAGE_DISPLAYS.remove(0);
+            }
+
             Display.TextDisplay display = EntityType.TEXT_DISPLAY.create(level, EntitySpawnReason.COMMAND);
 
             if (display != null) {
-                display.setText(Component.literal(String.valueOf(damage)));
-                display.setPos(xo, yo + 2, zo);
+                display.setText(Component.literal(String.valueOf(Math.round(damage * 10) / 10.0)));
 
+                int slot = DAMAGE_DISPLAYS.size();
+                double xOffset = (slot - 2) * 0.5;
+
+                display.setPos(this.getX() + xOffset, this.getY() + 3, this.getZ());
                 display.setBillboardConstraints(Display.BillboardConstraints.CENTER);
-
-                display.setDeltaMovement(0, 0.05, 0);
+                display.setDeltaMovement(0, 0.04, 0);
+                display.setTextOpacity((byte) 255);
 
                 level.addFreshEntity(display);
-
                 DAMAGE_DISPLAYS.add(display);
-
-                DAMAGE_DISPLAYS.removeIf(e -> e == null || e.isRemoved());
-
-                if (DAMAGE_DISPLAYS.size() > 5) {
-                    Display.TextDisplay oldest = DAMAGE_DISPLAYS.get(0);
-
-                    if (oldest != null && !oldest.isRemoved()) {
-                        oldest.discard();
-                    }
-
-                    DAMAGE_DISPLAYS.remove(0);
-                }
+                DISPLAY_FADE_TICKS.put(display, 30);
             }
         }
         if (this.isRemoved()) {
@@ -172,9 +177,12 @@ public class DummyEntity extends ArmorStand {
                 this.kill(level);
                 return true;
             } else {
+
+                // Temporary replacement for NumberParticle
                 if (source.getEntity() instanceof Player player) {
                     player.sendSystemMessage(Component.literal(player.getName().getString() + " dealt " + Math.round(damage * 10) / 10.0 + " hearts of damage"));
                 }
+                
                 long time = level.getGameTime();
                 long timeSinceHit = time - this.lastHit;
                 boolean isCrouching = source.getEntity() instanceof Player player && player.isCrouching();
@@ -207,5 +215,27 @@ public class DummyEntity extends ArmorStand {
     @Override
     public int getArmorValue() {
         return super.getArmorValue();
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        if (!this.level().isClientSide()) {
+            DISPLAY_FADE_TICKS.entrySet().removeIf(entry -> {
+                Display.TextDisplay d = entry.getKey();
+                int ticksLeft = entry.getValue();
+
+                if (d.isRemoved() || ticksLeft <= 0) {
+                    if (!d.isRemoved()) d.discard();
+                    DAMAGE_DISPLAYS.remove(d);
+                    return true;
+                }
+
+                byte opacity = (byte)(int)((ticksLeft / 30.0) * 255);
+                d.setTextOpacity(opacity);
+                entry.setValue(ticksLeft - 1);
+                return false;
+            });
+        }
     }
 }
