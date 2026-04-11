@@ -33,6 +33,10 @@ public class InscriptionTableBlockEntity extends BlockEntity implements Implemen
         return inventory;
     }
 
+    public ItemStack getRenderStack(){
+        return inventory.get(1);
+    }
+
     @Override
     public void preRemoveSideEffects(BlockPos pos, BlockState state) {
         super.preRemoveSideEffects(pos, state);

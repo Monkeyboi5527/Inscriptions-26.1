@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "x": "minecraft:grass_block",
+    "y": "minecraft:netherrack",
+    "z": "minecraft:end_stone"
+  },
+  "pattern": [
+    "xxx",
+    "yyy",
+    "zzz"
+  ],
+  "result": {
+    "id": "inscriptions:inscription_table"
+  }
+}
