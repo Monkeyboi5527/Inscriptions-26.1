@@ -21,8 +21,8 @@ import org.slf4j.LoggerFactory;
  *  	-Custom Enchants<p>
  *  	-Enchantment books like spells or something<p>
  *  	-Different playstyles <p>
- *  	- <p>
- *  	- <p>
+ *  	-Curses two-sided blade<p>
+ *  	-Make experience do more and not rely on it during enchanting<p>
  * INSCRIPTION SYSTEM: <p>
  *      -Upgraded Enchanting Table <p>
  *      -Different type of bookshelves <p>
