@@ -1,0 +1,17 @@
+{
+  "type": "inscriptions:inscription_table",
+  "slot1": { "item": "minecraft:enchanted_book" },
+  "slot2": { "item": "minecraft:barrier" },
+  "slot3": { "item": "minecraft:amethyst_shard" },
+  "result": {
+    "item": "minecraft:enchanted_book",
+    "count": 1,
+    "components": {
+      "minecraft:stored_enchantments": {
+        "levels": {
+          "inscriptions:vorpal": 1
+        }
+      }
+    }
+  }
+}
