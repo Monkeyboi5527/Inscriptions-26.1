@@ -1,36 +1,41 @@
 package net.monkeyskl.inscriptions.recipe;
 
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.Holder;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
-
-import java.util.Optional;
 
 public record InscriptionTableRecipe(Ingredient slot1, Ingredient slot2, Ingredient slot3, ItemStack output) implements Recipe<InscriptionTableRecipeInput> {
 
+//    @Override
+//    public boolean matches(InscriptionTableRecipeInput input, Level level) {
+//        if (!slot1.test(input.getItem(0))) return false;
+//        if (!slot2.test(input.getItem(1))) return false;
+//        if (!slot3.test(input.getItem(2))) return false;
+//
+//        ItemStack stack = input.getItem(0);
+//        if (stack.isEmpty()) return false;
+//
+//        return hasSharpnessFive(stack, level);
+//    }
+
     @Override
     public boolean matches(InscriptionTableRecipeInput input, Level level) {
-
-        if (slot1 != null && !slot1.test(input.getItem(0))) return false;
-        if (slot1 == null && !input.getItem(0).isEmpty()) return false;
-
-        if (slot2 != null && !slot2.test(input.getItem(1))) return false;
-        if (slot2 == null && !input.getItem(1).isEmpty()) return false;
-
-        if (slot3 != null && !slot3.test(input.getItem(2))) return false;
-        if (slot3 == null && !input.getItem(2).isEmpty()) return false;
-
-        return true;
+        return !input.getItem(0).isEmpty();
     }
 
+    // TESTING
     @Override
     public ItemStack assemble(InscriptionTableRecipeInput input) {
-        // So broken right now
-        return output.copy();
+        return new ItemStack(Items.DIAMOND);
     }
 
     @Override
@@ -74,42 +79,39 @@ public record InscriptionTableRecipe(Ingredient slot1, Ingredient slot2, Ingredi
 
             RecordCodecBuilder.mapCodec(inst -> inst.group(
 
-                    Ingredient.CODEC.optionalFieldOf("slot1")
-                            .forGetter(r -> Optional.ofNullable(r.slot1())),
+                    Ingredient.CODEC.fieldOf("slot1").forGetter(InscriptionTableRecipe::slot1),
+                    Ingredient.CODEC.fieldOf("slot2").forGetter(InscriptionTableRecipe::slot2),
+                    Ingredient.CODEC.fieldOf("slot3").forGetter(InscriptionTableRecipe::slot3),
+                    ItemStack.CODEC.fieldOf("result").forGetter(InscriptionTableRecipe::output)
 
-                    Ingredient.CODEC.optionalFieldOf("slot2")
-                            .forGetter(r -> Optional.ofNullable(r.slot2())),
-
-                    Ingredient.CODEC.optionalFieldOf("slot3")
-                            .forGetter(r -> Optional.ofNullable(r.slot3())),
-
-                    ItemStack.CODEC.fieldOf("result")
-                            .forGetter(InscriptionTableRecipe::output)
-
-            ).apply(inst, (s1, s2, s3, output) ->
-                    new InscriptionTableRecipe(
-                            s1.orElse(null),
-                            s2.orElse(null),
-                            s3.orElse(null),
-                            output
-                    )
-            )),
+            ).apply(inst, InscriptionTableRecipe::new)),
 
             StreamCodec.composite(
-                    Ingredient.CONTENTS_STREAM_CODEC,
-                    r -> r.slot1 == null ? Ingredient.of(Items.STONE) : r.slot1,
-
-                    Ingredient.CONTENTS_STREAM_CODEC,
-                    r -> r.slot2 == null ? Ingredient.of(Items.STONE) : r.slot2,
-
-                    Ingredient.CONTENTS_STREAM_CODEC,
-                    r -> r.slot3 == null ? Ingredient.of(Items.STONE) : r.slot3,
-
-                    ItemStack.STREAM_CODEC,
-                    r -> r.output,
-
-                    (s1, s2, s3, output) ->
-                            new InscriptionTableRecipe(s1, s2, s3, output)
+                    Ingredient.CONTENTS_STREAM_CODEC, InscriptionTableRecipe::slot1,
+                    Ingredient.CONTENTS_STREAM_CODEC, InscriptionTableRecipe::slot2,
+                    Ingredient.CONTENTS_STREAM_CODEC, InscriptionTableRecipe::slot3,
+                    ItemStack.STREAM_CODEC, InscriptionTableRecipe::output,
+                    InscriptionTableRecipe::new
             )
     );
+
+    private boolean hasSharpnessFive(ItemStack stack, Level level) {
+
+        Holder<Enchantment> sharpness = level.registryAccess()
+                .getOrThrow(Registries.ENCHANTMENT)
+                .value().getOrThrow(Enchantments.SHARPNESS);
+
+        var enchants = stack.get(DataComponents.ENCHANTMENTS);
+        if (enchants != null && enchants.getLevel(sharpness) >= 5) {
+            return true;
+        }
+
+        var stored = stack.get(DataComponents.STORED_ENCHANTMENTS);
+        if (stored != null && stored.getLevel(sharpness) >= 5) {
+            return true;
+        }
+
+        return false;
+    }
+
 }

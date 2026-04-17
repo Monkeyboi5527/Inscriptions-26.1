@@ -1,0 +1,9 @@
+{
+  "type": "inscriptions:inscription_table",
+  "slot1": { "items": ["minecraft:stone"] },
+  "slot2": { "items": [] },
+  "slot3": { "items": [] },
+  "result": {
+    "id": "minecraft:diamond"
+  }
+}

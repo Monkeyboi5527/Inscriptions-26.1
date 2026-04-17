@@ -1,17 +1,28 @@
 {
   "type": "inscriptions:inscription_table",
-  "slot1": { "item": "minecraft:enchanted_book" },
-  "slot2": { "item": "minecraft:barrier" },
-  "slot3": { "item": "minecraft:amethyst_shard" },
+
+  "slot1": {
+    "items": [
+      "minecraft:diamond_sword",
+      "minecraft:enchanted_book"
+    ]
+  },
+
+  "slot2": { "items": [] },
+
+  "slot3": {
+    "item": "minecraft:amethyst_shard"
+  },
+
   "result": {
-    "item": "minecraft:enchanted_book",
-    "count": 1,
+    "id": "minecraft:enchanted_book",
     "components": {
-      "minecraft:stored_enchantments": {
-        "levels": {
-          "inscriptions:vorpal": 1
+      "minecraft:stored_enchantments": [
+        {
+          "id": "inscriptions:vorpal",
+          "level": 6
         }
-      }
+      ]
     }
   }
 }
