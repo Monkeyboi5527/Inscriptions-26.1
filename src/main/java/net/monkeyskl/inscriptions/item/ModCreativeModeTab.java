@@ -29,6 +29,7 @@ public class ModCreativeModeTab {
                     output.accept(ModItems.TEST_ITEM);
                     output.accept(ModBlocks.INSCRIPTION_TABLE.asItem());
                     output.accept(ModItems.DUMMY);
+                    output.accept(ModBlocks.TEST_CRAFTING.asItem());
                 })
                 .build()
         );

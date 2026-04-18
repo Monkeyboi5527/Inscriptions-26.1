@@ -13,6 +13,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 import net.monkeyskl.inscriptions.Inscriptions;
 import net.monkeyskl.inscriptions.block.custom.InscriptionTableBlock;
+import net.monkeyskl.inscriptions.block.custom.TestCraftingBlock;
 
 import java.util.function.Function;
 
@@ -30,6 +31,14 @@ public class ModBlocks {
     public static final Block INSCRIPTION_TABLE = registerBlock(
             "inscription_table",
             InscriptionTableBlock::new,
+            BlockBehaviour.Properties.of()
+                    .strength(3.5f)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)
+    );
+    public static final Block TEST_CRAFTING = registerBlock(
+            "test_crafting",
+            TestCraftingBlock::new,
             BlockBehaviour.Properties.of()
                     .strength(3.5f)
                     .requiresCorrectToolForDrops()

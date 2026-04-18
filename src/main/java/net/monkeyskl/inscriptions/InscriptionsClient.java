@@ -13,6 +13,7 @@ import net.monkeyskl.inscriptions.entity.cilent.DummyRenderer;
 import net.monkeyskl.inscriptions.entity.custom.DummyEntity;
 import net.monkeyskl.inscriptions.menu.ModMenuTypes;
 import net.monkeyskl.inscriptions.menu.custom.InscriptionTableScreen;
+import net.monkeyskl.inscriptions.menu.custom.TestCraftingScreen;
 import net.monkeyskl.inscriptions.particle.ModParticles;
 import net.monkeyskl.inscriptions.particle.NumberParticle;
 
@@ -21,6 +22,7 @@ public class InscriptionsClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         MenuScreens.register(ModMenuTypes.INSCRIPTION_TABLE, InscriptionTableScreen::new);
+        MenuScreens.register(ModMenuTypes.TEST_CRAFTING, TestCraftingScreen::new);
 
         FabricDefaultAttributeRegistry.register(ModEntities.DUMMY, DummyEntity.createAttributes());
         EntityRendererRegistry.register(ModEntities.DUMMY, DummyRenderer::new);

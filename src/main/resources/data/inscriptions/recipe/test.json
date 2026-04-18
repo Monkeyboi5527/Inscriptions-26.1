@@ -1,9 +1,12 @@
 {
   "type": "inscriptions:inscription_table",
-  "slot1": { "items": ["minecraft:stone"] },
-  "slot2": { "items": [] },
-  "slot3": { "items": [] },
+  "ingredients": [
+    { "item": "minecraft:stick" },
+    { "item": "minecraft:stone" },
+    { "item": "minecraft:coal" }
+  ],
   "result": {
-    "id": "minecraft:diamond"
+    "id": "minecraft:diamond",
+    "count": 1
   }
 }

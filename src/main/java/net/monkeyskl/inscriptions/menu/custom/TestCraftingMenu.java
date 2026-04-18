@@ -1,6 +1,5 @@
 package net.monkeyskl.inscriptions.menu.custom;
 
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -9,77 +8,37 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.monkeyskl.inscriptions.block.ModBlocks;
 import net.monkeyskl.inscriptions.menu.ModMenuTypes;
-import net.monkeyskl.inscriptions.recipe.InscriptionTableRecipeInput;
-import net.monkeyskl.inscriptions.recipe.ModRecipes;
 
-public class InscriptionTableMenu extends AbstractContainerMenu {
+public class TestCraftingMenu extends AbstractContainerMenu {
     private final Inventory inventory;
     private final ContainerLevelAccess access;
     private final Container container;
 
 
-    public InscriptionTableMenu(int containerId, Inventory inventory) {
-        this(containerId, inventory, ContainerLevelAccess.NULL, new SimpleContainer(3));
+    public TestCraftingMenu(int containerId, Inventory inventory) {
+        this(containerId, inventory, ContainerLevelAccess.NULL, new SimpleContainer(2));
     }
 
-    public InscriptionTableMenu(int containerId, Inventory inventory, ContainerLevelAccess access, Container container) {
-        super(ModMenuTypes.INSCRIPTION_TABLE, containerId);
+    public TestCraftingMenu(int containerId, Inventory inventory, ContainerLevelAccess access, Container container) {
+        super(ModMenuTypes.TEST_CRAFTING, containerId);
         this.inventory = inventory;
         this.access = access;
-        this.container = new SimpleContainer(3) {
+        this.container = new SimpleContainer(2) {
             @Override
             public void setChanged() {
                 super.setChanged();
-                InscriptionTableMenu.this.slotsChanged(this);
+                TestCraftingMenu.this.slotsChanged(this);
             }
         };
 
-        this.addSlot(new Slot(container, 0, 26, 34));
-        this.addSlot(new Slot(container, 1, 80, 34));
-        this.addSlot(new Slot(container, 2, 134, 34));
+        this.addSlot(new Slot(this.container, 0, 26, 34));
+        this.addSlot(new Slot(this.container, 1, 80, 34));
 
         addStandardInventorySlots(inventory.player.getInventory(), 8, 84);
     }
 
-    @Override
-    public void slotsChanged(Container container) {
-        super.slotsChanged(container);
-        if (!(container instanceof SimpleContainer)) return;
-
-        if (this.access == ContainerLevelAccess.NULL) return;
-
-        this.access.execute((level, pos) -> {
-
-            if (!(level instanceof ServerLevel serverLevel)) return;
-
-            InscriptionTableRecipeInput input =
-                    new InscriptionTableRecipeInput(
-                            container.getItem(0),
-                            container.getItem(1),
-                            container.getItem(2)
-                    );
-
-            var optional = serverLevel.recipeAccess().getRecipeFor(
-                    ModRecipes.INSCRIPTION_TABLE_RECIPE_TYPE,
-                    input,
-                    serverLevel
-            );
-
-            if (optional.isPresent()) {
-                var recipe = optional.get();
-
-                ItemStack result = recipe.value().assemble(input);
-
-                // TEMP TEST OUTPUT
-                container.setItem(2, result);
-            } else {
-                container.setItem(2, new ItemStack(Items.DIAMOND));
-            }
-        });
-    }
 
     @Override
     public ItemStack quickMoveStack(Player player, int index) {
@@ -132,7 +91,7 @@ public class InscriptionTableMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
-        return stillValid(this.access, player, ModBlocks.INSCRIPTION_TABLE);
+        return stillValid(this.access, player, ModBlocks.TEST_CRAFTING);
     }
 
 }

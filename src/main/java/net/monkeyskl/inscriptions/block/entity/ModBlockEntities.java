@@ -16,6 +16,12 @@ public class ModBlockEntities {
                     FabricBlockEntityTypeBuilder.create(
                             InscriptionTableBlockEntity::new, ModBlocks.INSCRIPTION_TABLE
                     ).build());
+    public static final BlockEntityType<InscriptionTableBlockEntity> TEST_CRAFTING_BE =
+            Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE,
+                    Identifier.fromNamespaceAndPath(Inscriptions.MOD_ID, "test_crafting_be"),
+                    FabricBlockEntityTypeBuilder.create(
+                            InscriptionTableBlockEntity::new, ModBlocks.TEST_CRAFTING
+                    ).build());
 
     public static void registerBlockEntities() {
         Inscriptions.LOGGER.info("Registering BlockEntities for: " + Inscriptions.MOD_ID);

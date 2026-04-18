@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "inscriptions:block/test_crafting"
+  }
+}
