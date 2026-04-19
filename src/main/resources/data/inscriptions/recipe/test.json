@@ -1,12 +1,7 @@
 {
-  "type": "inscriptions:inscription_table",
-  "ingredients": [
-    { "item": "minecraft:stick" },
-    { "item": "minecraft:stone" },
-    { "item": "minecraft:coal" }
-  ],
+  "type": "inscriptions:test_crafting",
+  "input": "minecraft:stick",
   "result": {
-    "id": "minecraft:diamond",
-    "count": 1
+    "id": "minecraft:diamond"
   }
 }

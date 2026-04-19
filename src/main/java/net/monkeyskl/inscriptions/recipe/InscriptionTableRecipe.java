@@ -33,7 +33,6 @@ public record InscriptionTableRecipe(List<Ingredient> ingredients, ItemStack out
         return true;
     }
 
-    // ✅ RESULT
     @Override
     public ItemStack assemble(InscriptionTableRecipeInput input) {
         return output.copy();
@@ -59,7 +58,6 @@ public record InscriptionTableRecipe(List<Ingredient> ingredients, ItemStack out
         return ModRecipes.INSCRIPTION_TABLE_RECIPE_TYPE;
     }
 
-    // ✅ RECIPE BOOK / PLACEMENT
     @Override
     public PlacementInfo placementInfo() {
         NonNullList<Ingredient> list = NonNullList.create();

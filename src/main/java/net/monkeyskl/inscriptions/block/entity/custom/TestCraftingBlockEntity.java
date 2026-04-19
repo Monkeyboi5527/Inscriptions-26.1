@@ -64,7 +64,7 @@ public class TestCraftingBlockEntity extends BlockEntity implements ImplementedI
 
     @Override
     public @Nullable AbstractContainerMenu createMenu(int containerId, Inventory inventory, Player player) {
-        return new TestCraftingMenu(containerId, inventory, ContainerLevelAccess.create(level, getBlockPos()), this);
+        return new TestCraftingMenu(containerId, inventory, ContainerLevelAccess.create(level, getBlockPos()));
     }
 
 }

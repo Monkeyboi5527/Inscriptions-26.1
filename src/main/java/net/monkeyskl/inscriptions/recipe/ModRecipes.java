@@ -12,6 +12,7 @@ public class ModRecipes {
     public static final RecipeSerializer<InscriptionTableRecipe> INSCRIPTION_TABLE_RECIPE_SERIALIZER = Registry.register(
             BuiltInRegistries.RECIPE_SERIALIZER, Identifier.fromNamespaceAndPath(Inscriptions.MOD_ID, "inscription_table"),
             InscriptionTableRecipe.SERIALIZER);
+
     public static final RecipeType<InscriptionTableRecipe> INSCRIPTION_TABLE_RECIPE_TYPE =
             Registry.register(BuiltInRegistries.RECIPE_TYPE, Identifier.fromNamespaceAndPath(Inscriptions.MOD_ID, "inscription_table"),
                     new RecipeType<InscriptionTableRecipe>() {
@@ -20,6 +21,18 @@ public class ModRecipes {
                             return "inscription_table";
                         }
                     });
+
+    public static final RecipeSerializer<TestCraftingRecipe> TEST_CRAFTING_RECIPE_SERIALIZER = Registry.register(
+            BuiltInRegistries.RECIPE_SERIALIZER,
+            Identifier.fromNamespaceAndPath(Inscriptions.MOD_ID, "test_crafting"),
+            new RecipeSerializer<>(TestCraftingRecipe.CODEC, TestCraftingRecipe.STREAM_CODEC)
+    );
+
+    public static final RecipeType<TestCraftingRecipe> TEST_CRAFTING_RECIPE_TYPE = Registry.register(
+            BuiltInRegistries.RECIPE_TYPE,
+            Identifier.fromNamespaceAndPath(Inscriptions.MOD_ID, "test_crafting"),
+            new RecipeType<TestCraftingRecipe>() { }
+    );
 
 
     public static void registerModRecipes() {
