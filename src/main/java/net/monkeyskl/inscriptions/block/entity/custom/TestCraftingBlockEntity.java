@@ -20,7 +20,7 @@ import net.monkeyskl.inscriptions.menu.custom.TestCraftingMenu;
 import org.jspecify.annotations.Nullable;
 
 public class TestCraftingBlockEntity extends BlockEntity implements ImplementedInventory, MenuProvider {
-    private final NonNullList<ItemStack> inventory = NonNullList.withSize(2, ItemStack.EMPTY);
+    private final NonNullList<ItemStack> inventory = NonNullList.withSize(3, ItemStack.EMPTY);
 
 
 

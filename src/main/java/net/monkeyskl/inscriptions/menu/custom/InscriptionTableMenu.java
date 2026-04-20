@@ -12,7 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.monkeyskl.inscriptions.block.ModBlocks;
 import net.monkeyskl.inscriptions.menu.ModMenuTypes;
-import net.monkeyskl.inscriptions.recipe.InscriptionTableRecipeInput;
+import net.monkeyskl.inscriptions.recipe.custom.InscriptionTableRecipeInput;
 import net.monkeyskl.inscriptions.recipe.ModRecipes;
 
 public class InscriptionTableMenu extends AbstractContainerMenu {

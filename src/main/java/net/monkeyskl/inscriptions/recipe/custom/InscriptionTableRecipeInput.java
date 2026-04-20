@@ -1,4 +1,4 @@
-package net.monkeyskl.inscriptions.recipe;
+package net.monkeyskl.inscriptions.recipe.custom;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeInput;

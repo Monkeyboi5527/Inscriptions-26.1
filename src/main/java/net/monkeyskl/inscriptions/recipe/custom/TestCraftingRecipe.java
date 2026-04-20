@@ -1,4 +1,4 @@
-package net.monkeyskl.inscriptions.recipe;
+package net.monkeyskl.inscriptions.recipe.custom;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -8,6 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
+import net.monkeyskl.inscriptions.recipe.ModRecipes;
 
 public class TestCraftingRecipe implements Recipe<TestCraftingRecipeInput>{
     private final Ingredient inputItem;
@@ -72,7 +73,7 @@ public class TestCraftingRecipe implements Recipe<TestCraftingRecipeInput>{
 
     public static final MapCodec<TestCraftingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(
-                    Ingredient.CODEC.fieldOf("input")
+                    Ingredient.CODEC.fieldOf("baseItem")
                             .forGetter(TestCraftingRecipe::getInputItem),
 
                     ItemStackTemplate.CODEC.fieldOf("result")

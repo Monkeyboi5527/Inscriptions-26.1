@@ -1,4 +1,4 @@
-package net.monkeyskl.inscriptions.recipe;
+package net.monkeyskl.inscriptions.recipe.custom;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.NonNullList;
@@ -13,6 +13,7 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.monkeyskl.inscriptions.recipe.ModRecipes;
 
 import java.util.List;
 

@@ -6,6 +6,8 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.monkeyskl.inscriptions.Inscriptions;
+import net.monkeyskl.inscriptions.recipe.custom.InscriptionTableRecipe;
+import net.monkeyskl.inscriptions.recipe.custom.TestCraftingRecipe;
 
 public class ModRecipes {
 

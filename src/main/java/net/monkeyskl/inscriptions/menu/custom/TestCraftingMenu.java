@@ -15,8 +15,8 @@ import net.minecraft.world.level.Level;
 import net.monkeyskl.inscriptions.block.ModBlocks;
 import net.monkeyskl.inscriptions.menu.ModMenuTypes;
 import net.monkeyskl.inscriptions.recipe.ModRecipes;
-import net.monkeyskl.inscriptions.recipe.TestCraftingRecipe;
-import net.monkeyskl.inscriptions.recipe.TestCraftingRecipeInput;
+import net.monkeyskl.inscriptions.recipe.custom.TestCraftingRecipe;
+import net.monkeyskl.inscriptions.recipe.custom.TestCraftingRecipeInput;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +26,7 @@ public class TestCraftingMenu extends AbstractContainerMenu {
     private final ContainerLevelAccess access;
     private final Level level;
 
-    private final Container input = new SimpleContainer(1) {
+    private final Container input = new SimpleContainer(2) {
         @Override
         public void setChanged() {
             super.setChanged();
@@ -67,7 +67,7 @@ public class TestCraftingMenu extends AbstractContainerMenu {
         if (container == input && level instanceof ServerLevel serverLevel) {
 
             TestCraftingRecipeInput recipeInput =
-                    new TestCraftingRecipeInput(input.getItem(0));
+                    new TestCraftingRecipeInput(input.getItem(0), input.getItem(1));
 
             Optional<RecipeHolder<TestCraftingRecipe>> recipe =
                     serverLevel.recipeAccess().getRecipeFor(
