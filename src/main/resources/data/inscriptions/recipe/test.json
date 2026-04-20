@@ -1,6 +1,7 @@
 {
   "type": "inscriptions:test_crafting",
-  "input": "minecraft:stick",
+  "baseItem": "minecraft:stick",
+  "upgradeItem": "minecraft:dirt",
   "result": {
     "id": "minecraft:diamond"
   }

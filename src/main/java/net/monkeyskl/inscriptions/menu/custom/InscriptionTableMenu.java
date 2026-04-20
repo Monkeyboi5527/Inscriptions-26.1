@@ -37,9 +37,9 @@ public class InscriptionTableMenu extends AbstractContainerMenu {
             }
         };
 
-        this.addSlot(new Slot(container, 0, 26, 34));
-        this.addSlot(new Slot(container, 1, 80, 34));
-        this.addSlot(new Slot(container, 2, 134, 34));
+        this.addSlot(new Slot(this.container, 0, 26, 34));
+        this.addSlot(new Slot(this.container, 1, 80, 34));
+        this.addSlot(new Slot(this.container, 2, 134, 34));
 
         addStandardInventorySlots(inventory.player.getInventory(), 8, 84);
     }

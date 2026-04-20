@@ -8,6 +8,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.monkeyskl.inscriptions.Inscriptions;
 import net.monkeyskl.inscriptions.block.ModBlocks;
 import net.monkeyskl.inscriptions.block.entity.custom.InscriptionTableBlockEntity;
+import net.monkeyskl.inscriptions.block.entity.custom.TestCraftingBlockEntity;
 
 public class ModBlockEntities {
     public static final BlockEntityType<InscriptionTableBlockEntity> INSCRIPTION_TABLE_BE =
@@ -16,11 +17,11 @@ public class ModBlockEntities {
                     FabricBlockEntityTypeBuilder.create(
                             InscriptionTableBlockEntity::new, ModBlocks.INSCRIPTION_TABLE
                     ).build());
-    public static final BlockEntityType<InscriptionTableBlockEntity> TEST_CRAFTING_BE =
+    public static final BlockEntityType<TestCraftingBlockEntity> TEST_CRAFTING_BE =
             Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE,
                     Identifier.fromNamespaceAndPath(Inscriptions.MOD_ID, "test_crafting_be"),
                     FabricBlockEntityTypeBuilder.create(
-                            InscriptionTableBlockEntity::new, ModBlocks.TEST_CRAFTING
+                            TestCraftingBlockEntity::new, ModBlocks.TEST_CRAFTING
                     ).build());
 
     public static void registerBlockEntities() {

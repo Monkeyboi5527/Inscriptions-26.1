@@ -8,7 +8,6 @@ import net.minecraft.world.entity.ContainerUser;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -64,7 +63,7 @@ public class TestCraftingBlockEntity extends BlockEntity implements ImplementedI
 
     @Override
     public @Nullable AbstractContainerMenu createMenu(int containerId, Inventory inventory, Player player) {
-        return new TestCraftingMenu(containerId, inventory, ContainerLevelAccess.create(level, getBlockPos()));
+        return new TestCraftingMenu(containerId, inventory, this);
     }
 
 }

@@ -11,11 +11,13 @@ import net.minecraft.world.level.Level;
 import net.monkeyskl.inscriptions.recipe.ModRecipes;
 
 public class TestCraftingRecipe implements Recipe<TestCraftingRecipeInput>{
-    private final Ingredient inputItem;
+    private final Ingredient baseItem;
+    private final Ingredient upgradeItem;
     private final ItemStackTemplate output;
 
-    private TestCraftingRecipe(Ingredient inputItem, ItemStackTemplate output) {
-        this.inputItem = inputItem;
+    private TestCraftingRecipe(Ingredient baseItem,Ingredient upgradeItem ,ItemStackTemplate output) {
+        this.baseItem = baseItem;
+        this.upgradeItem = upgradeItem;
         this.output = output;
     }
 
@@ -23,8 +25,12 @@ public class TestCraftingRecipe implements Recipe<TestCraftingRecipeInput>{
         return output;
     }
 
-    public Ingredient getInputItem() {
-        return inputItem;
+    public Ingredient getBaseItem() {
+        return baseItem;
+    }
+
+    public Ingredient getUpgradeItem() {
+        return upgradeItem;
     }
 
     @Override
@@ -33,7 +39,7 @@ public class TestCraftingRecipe implements Recipe<TestCraftingRecipeInput>{
             return false;
         }
 
-        return inputItem.test(input.getItem(0));
+        return baseItem.test(input.baseItem()) && upgradeItem.test(input.upgradeItem());
     }
 
     @Override
@@ -43,12 +49,12 @@ public class TestCraftingRecipe implements Recipe<TestCraftingRecipeInput>{
 
     @Override
     public boolean showNotification() {
-        return false;
+        return true;
     }
 
     @Override
     public String group() {
-        return "";
+        return "test_crafting";
     }
 
     @Override
@@ -63,7 +69,7 @@ public class TestCraftingRecipe implements Recipe<TestCraftingRecipeInput>{
 
     @Override
     public PlacementInfo placementInfo() {
-        return PlacementInfo.create(inputItem);
+        return PlacementInfo.create(baseItem);
     }
 
     @Override
@@ -74,7 +80,10 @@ public class TestCraftingRecipe implements Recipe<TestCraftingRecipeInput>{
     public static final MapCodec<TestCraftingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(
                     Ingredient.CODEC.fieldOf("baseItem")
-                            .forGetter(TestCraftingRecipe::getInputItem),
+                            .forGetter(TestCraftingRecipe::getBaseItem),
+
+                    Ingredient.CODEC.fieldOf("upgradeItem")
+                            .forGetter(TestCraftingRecipe::getUpgradeItem),
 
                     ItemStackTemplate.CODEC.fieldOf("result")
                             .forGetter(TestCraftingRecipe::getOutput)
@@ -84,7 +93,10 @@ public class TestCraftingRecipe implements Recipe<TestCraftingRecipeInput>{
     public static final StreamCodec<RegistryFriendlyByteBuf, TestCraftingRecipe> STREAM_CODEC =
             StreamCodec.composite(
                     Ingredient.CONTENTS_STREAM_CODEC,
-                    TestCraftingRecipe::getInputItem,
+                    TestCraftingRecipe::getBaseItem,
+
+                    Ingredient.CONTENTS_STREAM_CODEC,
+                    TestCraftingRecipe::getUpgradeItem,
 
                     ItemStackTemplate.STREAM_CODEC,
                     TestCraftingRecipe::getOutput,
