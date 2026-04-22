@@ -36,6 +36,8 @@ public class ModBlocks {
                     .requiresCorrectToolForDrops()
                     .sound(SoundType.STONE)
     );
+
+    // Plans to make this the OverEnchanter
     public static final Block TEST_CRAFTING = registerBlock(
             "test_crafting",
             TestCraftingBlock::new,

@@ -1,0 +1,13 @@
+{
+  "type": "inscriptions:test_crafting",
+  "baseItem": "inscriptions:test_item",
+  "upgradeItem": "inscriptions:test_block",
+  "result": {
+    "id": "minecraft:enchanted_book",
+    "components": {
+      "minecraft:enchantments": {
+        "inscriptions:vorpal": 6
+      }
+    }
+  }
+}
