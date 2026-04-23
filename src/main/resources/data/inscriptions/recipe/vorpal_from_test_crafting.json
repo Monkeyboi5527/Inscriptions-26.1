@@ -6,7 +6,7 @@
     "id": "minecraft:enchanted_book",
     "components": {
       "minecraft:enchantments": {
-        "inscriptions:vorpal": 6
+        "inscriptions:vorpal": 1
       }
     }
   }

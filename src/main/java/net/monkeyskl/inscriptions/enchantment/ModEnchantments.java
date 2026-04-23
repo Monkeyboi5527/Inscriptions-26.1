@@ -10,9 +10,9 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.*;
-import net.minecraft.world.item.enchantment.effects.AddValue;
 import net.monkeyskl.inscriptions.Inscriptions;
 import net.monkeyskl.inscriptions.enchantment.custom.TestEnchantmentEffect;
+import net.monkeyskl.inscriptions.enchantment.custom.VorpalEnchantmentEffect;
 
 public class ModEnchantments {
     public static final ResourceKey<Enchantment> TEST = key("test");
@@ -35,18 +35,20 @@ public class ModEnchantments {
                         EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM,
                         new TestEnchantmentEffect()));
 
-        register(context, VORPAL, Enchantment.enchantment(Enchantment.definition(
+        register(context, VORPAL,
+                Enchantment.enchantment(Enchantment.definition(
                                 items.getOrThrow(ItemTags.SHARP_WEAPON_ENCHANTABLE),
                                 items.getOrThrow(ItemTags.MELEE_WEAPON_ENCHANTABLE),
                                 10,
-                                6,
+                                3,
                                 Enchantment.dynamicCost(1, 11),
                                 Enchantment.dynamicCost(21, 11),
-                                1,
+                                2,
                                 EquipmentSlotGroup.MAINHAND))
                         .exclusiveWith(enchantments.getOrThrow(EnchantmentTags.DAMAGE_EXCLUSIVE))
-                        .withEffect(EnchantmentEffectComponents.DAMAGE,
-                                new AddValue(LevelBasedValue.perLevel(1.0F, 0.5F))));
+                        .withEffect(EnchantmentEffectComponents.POST_ATTACK,
+                                EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM,
+                                new VorpalEnchantmentEffect()));
     }
 
     public static void register(BootstrapContext<Enchantment> context, ResourceKey<Enchantment> key, Enchantment.Builder builder) {
