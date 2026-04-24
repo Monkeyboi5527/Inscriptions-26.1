@@ -45,9 +45,10 @@ public class ModEnchantments {
                                 Enchantment.dynamicCost(21, 11),
                                 2,
                                 EquipmentSlotGroup.MAINHAND))
-                        .exclusiveWith(enchantments.getOrThrow(EnchantmentTags.DAMAGE_EXCLUSIVE))
-                        .withEffect(EnchantmentEffectComponents.POST_ATTACK,
-                                EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM,
+                        .withEffect(
+                                EnchantmentEffectComponents.POST_ATTACK,
+                                EnchantmentTarget.ATTACKER,
+                                EnchantmentTarget.VICTIM,
                                 new VorpalEnchantmentEffect()));
     }
 
