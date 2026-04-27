@@ -40,7 +40,7 @@ public class ModEnchantments {
                                 items.getOrThrow(ItemTags.SHARP_WEAPON_ENCHANTABLE),
                                 items.getOrThrow(ItemTags.MELEE_WEAPON_ENCHANTABLE),
                                 10,
-                                3,
+                                5,
                                 Enchantment.dynamicCost(1, 11),
                                 Enchantment.dynamicCost(21, 11),
                                 2,
@@ -50,6 +50,23 @@ public class ModEnchantments {
                                 EnchantmentTarget.ATTACKER,
                                 EnchantmentTarget.VICTIM,
                                 new VorpalEnchantmentEffect()));
+        // Sharpness ->
+        //  .withEffect(EnchantmentEffectComponents.DAMAGE, new AddValue(LevelBasedValue.perLevel(1.0F, 0.5F)))
+        //  "effects": {
+        //      "minecraft:damage": [
+        //          {
+        //        "effect": {
+        //          "type": "minecraft:add",
+        //          "value": {
+        //            "type": "minecraft:linear",
+        //            "base": 1.0,
+        //            "per_level_above_first": 0.5
+        //          }
+        //        }
+        //      }
+        //    ]
+        //  },
+        //  "exclusive_set": "#minecraft:exclusive_set/damage",
     }
 
     public static void register(BootstrapContext<Enchantment> context, ResourceKey<Enchantment> key, Enchantment.Builder builder) {
