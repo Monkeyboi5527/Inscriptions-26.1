@@ -2,11 +2,16 @@ package net.monkeyskl.inscriptions.recipe.custom;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.monkeyskl.inscriptions.recipe.ModRecipes;
 
@@ -38,8 +43,15 @@ public class TestCraftingRecipe implements Recipe<TestCraftingRecipeInput>{
         if (level.isClientSide()) {
             return false;
         }
+        ItemStack stack = input.baseItem();
 
-        return baseItem.test(input.baseItem()) && upgradeItem.test(input.upgradeItem());
+        boolean itemMatch = baseItem.test(stack);
+
+        Registry<Enchantment> registry = level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
+        Holder<Enchantment> SHARPNESS = registry.getOrThrow(Enchantments.SHARPNESS);
+        boolean hasSharpness5 = stack.getEnchantments().getLevel(SHARPNESS) == 5;
+
+        return itemMatch && hasSharpness5 && upgradeItem.test(input.upgradeItem());
     }
 
     @Override

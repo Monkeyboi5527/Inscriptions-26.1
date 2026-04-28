@@ -1,7 +1,7 @@
 {
   "type": "inscriptions:test_crafting",
-  "baseItem": "inscriptions:test_item",
-  "upgradeItem": "inscriptions:test_block",
+  "baseItem": "minecraft:enchanted_book",
+  "upgradeItem": "minecraft:amethyst_shard",
   "result": {
     "id": "minecraft:enchanted_book",
     "components": {
