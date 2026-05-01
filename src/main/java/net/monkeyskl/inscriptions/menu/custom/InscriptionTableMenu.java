@@ -9,7 +9,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.monkeyskl.inscriptions.block.ModBlocks;
 import net.monkeyskl.inscriptions.menu.ModMenuTypes;
 import net.monkeyskl.inscriptions.recipe.custom.InscriptionTableRecipeInput;
@@ -73,10 +72,10 @@ public class InscriptionTableMenu extends AbstractContainerMenu {
 
                 ItemStack result = recipe.value().assemble(input);
 
-                // TEMP TEST OUTPUT
+
                 container.setItem(2, result);
             } else {
-                container.setItem(2, new ItemStack(Items.DIAMOND));
+                container.setItem(2, ItemStack.EMPTY);
             }
         });
     }

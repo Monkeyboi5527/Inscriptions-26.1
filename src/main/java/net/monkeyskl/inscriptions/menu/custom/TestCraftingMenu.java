@@ -1,6 +1,8 @@
 package net.monkeyskl.inscriptions.menu.custom;
 
-import net.minecraft.core.NonNullList;
+import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
@@ -11,10 +13,15 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.ResultContainer;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.Level;
 import net.monkeyskl.inscriptions.block.ModBlocks;
 import net.monkeyskl.inscriptions.block.entity.custom.TestCraftingBlockEntity;
+import net.monkeyskl.inscriptions.enchantment.ModEnchantments;
 import net.monkeyskl.inscriptions.menu.ModMenuTypes;
 import net.monkeyskl.inscriptions.recipe.ModRecipes;
 import net.monkeyskl.inscriptions.recipe.custom.TestCraftingRecipe;
@@ -107,6 +114,19 @@ public class TestCraftingMenu extends AbstractContainerMenu {
     private void updateResult() {
         if (!(level instanceof ServerLevel serverLevel)) return;
 
+        ItemStack stack = input.getItem(0);
+        ItemEnchantments enchantments =
+                stack.getOrDefault(DataComponents.ENCHANTMENTS, ItemEnchantments.EMPTY);
+
+        int sharpnessLevel =
+                enchantments.getLevel(
+                        serverLevel.registryAccess()
+                                .lookupOrThrow(Registries.ENCHANTMENT)
+                                .getOrThrow(Enchantments.SHARPNESS)
+                );
+
+        boolean sharp = sharpnessLevel >= 5;
+
         TestCraftingRecipeInput recipeInput =
                 new TestCraftingRecipeInput(input.getItem(0), input.getItem(1));
 
@@ -118,6 +138,23 @@ public class TestCraftingMenu extends AbstractContainerMenu {
                 );
 
         if (recipe.isPresent()) {
+            if (sharp) {
+                ItemStack book = new ItemStack(Items.ENCHANTED_BOOK);
+
+                Holder<Enchantment> vorpal =
+                        serverLevel.registryAccess()
+                                .lookupOrThrow(Registries.ENCHANTMENT)
+                                .getOrThrow(ModEnchantments.VORPAL);
+
+                ItemEnchantments.Mutable mutable =
+                        new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
+
+                mutable.set(vorpal, 1);
+
+                book.set(DataComponents.STORED_ENCHANTMENTS, mutable.toImmutable());
+
+                output.setItem(0, book);
+            }
             output.setItem(0, recipe.get().value().assemble(recipeInput));
             output.setRecipeUsed(recipe.get());
         } else {
