@@ -3,6 +3,7 @@ package net.monkeyskl.inscriptions.block.entity.custom;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.ContainerUser;
 import net.minecraft.world.entity.player.Inventory;
@@ -44,11 +45,13 @@ public class TestCraftingBlockEntity extends BlockEntity implements ImplementedI
     @Override
     protected void saveAdditional(ValueOutput output) {
         super.saveAdditional(output);
+        ContainerHelper.saveAllItems(output, this.inventory);
     }
 
     @Override
     protected void loadAdditional(ValueInput input) {
         super.loadAdditional(input);
+        ContainerHelper.loadAllItems(input, this.inventory);
     }
 
     @Override
