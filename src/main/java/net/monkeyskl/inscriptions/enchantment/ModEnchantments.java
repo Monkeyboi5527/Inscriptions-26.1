@@ -1,5 +1,6 @@
 package net.monkeyskl.inscriptions.enchantment;
 
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
@@ -10,6 +11,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.*;
+import net.minecraft.world.level.Level;
 import net.monkeyskl.inscriptions.Inscriptions;
 import net.monkeyskl.inscriptions.enchantment.custom.TestEnchantmentEffect;
 import net.monkeyskl.inscriptions.enchantment.custom.VorpalEnchantmentEffect;
@@ -50,23 +52,7 @@ public class ModEnchantments {
                                 EnchantmentTarget.ATTACKER,
                                 EnchantmentTarget.VICTIM,
                                 new VorpalEnchantmentEffect()));
-        // Sharpness ->
-        //  .withEffect(EnchantmentEffectComponents.DAMAGE, new AddValue(LevelBasedValue.perLevel(1.0F, 0.5F)))
-        //  "effects": {
-        //      "minecraft:damage": [
-        //          {
-        //        "effect": {
-        //          "type": "minecraft:add",
-        //          "value": {
-        //            "type": "minecraft:linear",
-        //            "base": 1.0,
-        //            "per_level_above_first": 0.5
-        //          }
-        //        }
-        //      }
-        //    ]
-        //  },
-        //  "exclusive_set": "#minecraft:exclusive_set/damage",
+
     }
 
     public static void register(BootstrapContext<Enchantment> context, ResourceKey<Enchantment> key, Enchantment.Builder builder) {
@@ -77,4 +63,9 @@ public class ModEnchantments {
         return ResourceKey.create(Registries.ENCHANTMENT, Identifier.fromNamespaceAndPath(Inscriptions.MOD_ID,id));
     }
 
+    public static Holder<Enchantment> getHolder(Level level, ResourceKey<Enchantment> key) {
+        return level.registryAccess()
+                .lookupOrThrow(Registries.ENCHANTMENT)
+                .getOrThrow(key);
+    }
 }

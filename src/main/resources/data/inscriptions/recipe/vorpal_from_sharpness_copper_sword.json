@@ -1,0 +1,13 @@
+{
+  "type": "inscriptions:test_crafting",
+  "baseItem": "minecraft:copper_sword",
+  "upgradeItem": "minecraft:amethyst_shard",
+  "result": {
+    "id": "minecraft:copper_sword",
+    "components": {
+      "minecraft:enchantments": {
+        "inscriptions:vorpal": 1
+      }
+    }
+  }
+}

@@ -4,6 +4,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -138,13 +139,28 @@ public class TestCraftingMenu extends AbstractContainerMenu {
                 );
 
         if (recipe.isPresent()) {
+
+            if (stack.is(ItemTags.SWORDS) && sharp) {
+                ItemStack sword = new ItemStack(Items.DIAMOND_SWORD);
+
+                Holder<Enchantment> vorpal = ModEnchantments.getHolder(level, ModEnchantments.VORPAL);
+
+                ItemEnchantments.Mutable mutable =
+                        new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
+
+                mutable.set(vorpal, 1);
+
+                sword.set(DataComponents.STORED_ENCHANTMENTS, mutable.toImmutable());
+
+                output.setItem(0, sword);
+            } else if (stack.is(ItemTags.SWORDS)) {
+                return;
+            }
+
             if (sharp) {
                 ItemStack book = new ItemStack(Items.ENCHANTED_BOOK);
 
-                Holder<Enchantment> vorpal =
-                        serverLevel.registryAccess()
-                                .lookupOrThrow(Registries.ENCHANTMENT)
-                                .getOrThrow(ModEnchantments.VORPAL);
+                Holder<Enchantment> vorpal = ModEnchantments.getHolder(level, ModEnchantments.VORPAL);
 
                 ItemEnchantments.Mutable mutable =
                         new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);

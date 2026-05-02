@@ -1,0 +1,13 @@
+{
+  "type": "inscriptions:test_crafting",
+  "baseItem": "minecraft:stone_sword",
+  "upgradeItem": "minecraft:amethyst_shard",
+  "result": {
+    "id": "minecraft:stone_sword",
+    "components": {
+      "minecraft:enchantments": {
+        "inscriptions:vorpal": 1
+      }
+    }
+  }
+}
