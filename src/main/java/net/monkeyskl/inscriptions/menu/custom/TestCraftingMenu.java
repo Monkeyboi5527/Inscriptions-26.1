@@ -153,23 +153,47 @@ public class TestCraftingMenu extends AbstractContainerMenu {
                 sword.set(DataComponents.STORED_ENCHANTMENTS, mutable.toImmutable());
 
                 output.setItem(0, sword);
+                broadcastChanges();
+                return;
+
             } else if (stack.is(ItemTags.SWORDS)) {
                 return;
             }
 
-            if (sharp) {
-                ItemStack book = new ItemStack(Items.ENCHANTED_BOOK);
+            if (stack.is(Items.ENCHANTED_BOOK)) {
 
-                Holder<Enchantment> vorpal = ModEnchantments.getHolder(level, ModEnchantments.VORPAL);
+                ItemEnchantments storedEnchantments =
+                        stack.getOrDefault(
+                                DataComponents.STORED_ENCHANTMENTS,
+                                ItemEnchantments.EMPTY
+                        );
 
-                ItemEnchantments.Mutable mutable =
-                        new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
+                Holder<Enchantment> sharpness =
+                        ModEnchantments.getHolder(level, Enchantments.SHARPNESS);
 
-                mutable.set(vorpal, 1);
+                int sharpLevel = storedEnchantments.getLevel(sharpness);
 
-                book.set(DataComponents.STORED_ENCHANTMENTS, mutable.toImmutable());
+                if (sharpLevel == 5) {
 
-                output.setItem(0, book);
+                    ItemStack book = new ItemStack(Items.ENCHANTED_BOOK);
+
+                    Holder<Enchantment> vorpal =
+                            ModEnchantments.getHolder(level, ModEnchantments.VORPAL);
+
+                    ItemEnchantments.Mutable mutable =
+                            new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
+
+                    mutable.set(vorpal, 1);
+
+                    book.set(DataComponents.STORED_ENCHANTMENTS, mutable.toImmutable());
+
+                    output.setItem(0, book);
+                    broadcastChanges();
+
+                } else {
+                    output.clearContent();
+                }
+                return;
             }
             output.setItem(0, recipe.get().value().assemble(recipeInput));
             output.setRecipeUsed(recipe.get());
