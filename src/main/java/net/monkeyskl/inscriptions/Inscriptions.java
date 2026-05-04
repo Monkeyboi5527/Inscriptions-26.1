@@ -38,6 +38,7 @@ public class Inscriptions implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		LOGGER.info("Hello Fabric world!");
+		LOGGER.info("Loading Inscriptions!");
 
 		ModItems.registerModItems();
 		ModBlocks.registerModBlocks();
