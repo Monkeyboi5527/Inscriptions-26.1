@@ -16,21 +16,29 @@ import org.slf4j.LoggerFactory;
 
 
 /**
- * IDEAS: <p>
- *  	-Enchanting = Minecraft's version of magic <p>
- *  	-Custom Enchants<p>
- *  	-Enchantment books like spells or something<p>
- *  	-Different playstyles <p>
- *  	-Curses two-sided blade<p>
- *  	-Make experience do more and not rely on it during enchanting<p>
- * INSCRIPTION SYSTEM: <p>
- *      -Upgraded Enchanting Table <p>
- *      -Different type of bookshelves <p>
- *      -Over Enchanting {
- *			Needs a material to upgrade Ex: Sharpness V -> Sharpness VI needs an Amethyst Shard
- *      }
+ * Inscriptions is a mod that aims to rework Minecraft's enchantment system.
  * */
 public class Inscriptions implements ModInitializer {
+
+	// Brainstorming
+
+//	Higher level enchanting like Sharpness 3-5 needs more than just bookshelves and experience points
+//	Special bookshelves or different themed blocks to get certain enchantments Ex: Luck of the Sea might need prismarine/ prismarine type bookshelves
+//	Enchanting less rng
+//	Mending villagers are too OP
+//	Fishing enchanted book is worth it
+
+//	Overenchanting(TestCraftingBlock for now) needs max enchantment and an item (for now) Ex: Sharpness V -> Sharpness VI+ needs Amethyst Shard
+
+//	Inscriptions are a different type of enchanted book. you won't beable to read it and have to decipher.
+//	Inscriptions are powerful but rare
+
+//	Magic will use something created with enchantments Ex: Fire Aspect -> Fireball
+
+//	Curses two-sided blade. Use it and pay the price Ex: Increased all stats for 5 minutes but halved stats for 10
+
+
+
 	public static final String MOD_ID = "inscriptions";
 
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
