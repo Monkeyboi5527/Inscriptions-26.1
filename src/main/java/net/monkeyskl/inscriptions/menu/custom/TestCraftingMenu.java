@@ -140,6 +140,7 @@ public class TestCraftingMenu extends AbstractContainerMenu {
 
         if (recipe.isPresent()) {
 
+            // Sword with sharpness 5 -> vorpal
             if (stack.is(ItemTags.SWORDS) && sharp) {
                 ItemStack sword = new ItemStack(Items.DIAMOND_SWORD);
 
@@ -160,6 +161,7 @@ public class TestCraftingMenu extends AbstractContainerMenu {
                 return;
             }
 
+            // Sharpness Upgrade
             if (stack.is(Items.ENCHANTED_BOOK)) {
 
                 ItemEnchantments storedEnchantments =
@@ -173,25 +175,54 @@ public class TestCraftingMenu extends AbstractContainerMenu {
 
                 int sharpLevel = storedEnchantments.getLevel(sharpness);
 
-                if (sharpLevel == 5) {
+                ItemStack book = new ItemStack(Items.ENCHANTED_BOOK);
 
-                    ItemStack book = new ItemStack(Items.ENCHANTED_BOOK);
+                ItemEnchantments.Mutable mutable =
+                        new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
 
-                    Holder<Enchantment> vorpal =
-                            ModEnchantments.getHolder(level, ModEnchantments.VORPAL);
-
-                    ItemEnchantments.Mutable mutable =
-                            new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
-
-                    mutable.set(vorpal, 1);
-
-                    book.set(DataComponents.STORED_ENCHANTMENTS, mutable.toImmutable());
-
-                    output.setItem(0, book);
-                    broadcastChanges();
-
-                } else {
-                    output.clearContent();
+                switch (sharpLevel) {
+                    case 5: {
+                        mutable.set(sharpness, 6);
+                        book.set(DataComponents.STORED_ENCHANTMENTS, mutable.toImmutable());
+                        output.setItem(0, book);
+                        break;
+                    }
+                    case 6: {
+                        mutable.set(sharpness, 7);
+                        book.set(DataComponents.STORED_ENCHANTMENTS, mutable.toImmutable());
+                        output.setItem(0, book);
+                        break;
+                    }
+                    case 7: {
+                        mutable.set(sharpness, 8);
+                        book.set(DataComponents.STORED_ENCHANTMENTS, mutable.toImmutable());
+                        output.setItem(0, book);
+                        break;
+                    }
+                    case 8: {
+                        mutable.set(sharpness, 9);
+                        book.set(DataComponents.STORED_ENCHANTMENTS, mutable.toImmutable());
+                        output.setItem(0, book);
+                        break;
+                    }
+                    case 9: {
+                        mutable.set(sharpness, 10);
+                        book.set(DataComponents.STORED_ENCHANTMENTS, mutable.toImmutable());
+                        output.setItem(0, book);
+                        break;
+                    }
+                    case 10: {
+                        //TEMP
+                        Holder<Enchantment> vorpal = ModEnchantments.getHolder(level, ModEnchantments.VORPAL);
+                        mutable.set(vorpal, 1);
+                        book.set(DataComponents.STORED_ENCHANTMENTS, mutable.toImmutable());
+                        output.setItem(0, book);
+                        break;
+                    }
+                    default: {
+                        output.setItem(0, ItemStack.EMPTY);
+                        break;
+                    }
                 }
                 return;
             }
