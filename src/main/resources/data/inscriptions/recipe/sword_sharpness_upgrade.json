@@ -1,0 +1,8 @@
+{
+  "type": "inscriptions:test_crafting",
+  "baseItem": "#minecraft:swords",
+  "upgradeItem": "minecraft:amethyst_shard",
+  "result": {
+    "id": "minecraft:diamond_sword"
+  }
+}

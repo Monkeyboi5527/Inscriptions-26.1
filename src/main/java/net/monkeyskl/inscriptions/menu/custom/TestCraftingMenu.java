@@ -2,7 +2,6 @@ package net.monkeyskl.inscriptions.menu.custom;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.Container;
@@ -115,18 +114,21 @@ public class TestCraftingMenu extends AbstractContainerMenu {
     private void updateResult() {
         if (!(level instanceof ServerLevel serverLevel)) return;
 
+        Holder<Enchantment> vorpal = ModEnchantments.getHolder(level, ModEnchantments.VORPAL);
+        Holder<Enchantment> sharpness = ModEnchantments.getHolder(level, Enchantments.SHARPNESS);
+
         ItemStack stack = input.getItem(0);
         ItemEnchantments enchantments =
                 stack.getOrDefault(DataComponents.ENCHANTMENTS, ItemEnchantments.EMPTY);
 
-        int sharpnessLevel =
-                enchantments.getLevel(
-                        serverLevel.registryAccess()
-                                .lookupOrThrow(Registries.ENCHANTMENT)
-                                .getOrThrow(Enchantments.SHARPNESS)
+        ItemEnchantments storedEnchantments =
+                stack.getOrDefault(
+                        DataComponents.STORED_ENCHANTMENTS,
+                        ItemEnchantments.EMPTY
                 );
 
-        boolean sharp = sharpnessLevel >= 5;
+        int sharpLevelStored = storedEnchantments.getLevel(sharpness);
+        int sharpLevel = enchantments.getLevel(sharpness);
 
         TestCraftingRecipeInput recipeInput =
                 new TestCraftingRecipeInput(input.getItem(0), input.getItem(1));
@@ -140,18 +142,26 @@ public class TestCraftingMenu extends AbstractContainerMenu {
 
         if (recipe.isPresent()) {
 
-            // Sword with sharpness 5 -> vorpal
-            if (stack.is(ItemTags.SWORDS) && sharp) {
-                ItemStack sword = new ItemStack(Items.DIAMOND_SWORD);
-
-                Holder<Enchantment> vorpal = ModEnchantments.getHolder(level, ModEnchantments.VORPAL);
-
+            // Sword Sharpness Upgrade
+            if (stack.is(ItemTags.SWORDS) && sharpLevel >= 5) {
+                ItemStack sword = stack.copy();
                 ItemEnchantments.Mutable mutable =
-                        new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
+                        new ItemEnchantments.Mutable(enchantments);
 
-                mutable.set(vorpal, 1);
+                switch (sharpLevel) {
+                    case 5 -> mutable.set(sharpness, 6);
+                    case 6 -> mutable.set(sharpness, 7);
+                    case 7 -> mutable.set(sharpness, 8);
+                    case 8 -> mutable.set(sharpness, 9);
+                    case 9 -> mutable.set(sharpness, 10);
+                    case 10 -> mutable.set(vorpal, 1); //temp + bugged
 
-                sword.set(DataComponents.STORED_ENCHANTMENTS, mutable.toImmutable());
+                    default -> {
+                        output.setItem(0, ItemStack.EMPTY);
+                        return;
+                    }
+                }
+                sword.set(DataComponents.ENCHANTMENTS, mutable.toImmutable());
 
                 output.setItem(0, sword);
                 broadcastChanges();
@@ -163,24 +173,11 @@ public class TestCraftingMenu extends AbstractContainerMenu {
 
             // Sharpness Upgrade
             if (stack.is(Items.ENCHANTED_BOOK)) {
-
-                ItemEnchantments storedEnchantments =
-                        stack.getOrDefault(
-                                DataComponents.STORED_ENCHANTMENTS,
-                                ItemEnchantments.EMPTY
-                        );
-
-                Holder<Enchantment> sharpness =
-                        ModEnchantments.getHolder(level, Enchantments.SHARPNESS);
-
-                int sharpLevel = storedEnchantments.getLevel(sharpness);
-
                 ItemStack book = new ItemStack(Items.ENCHANTED_BOOK);
-
                 ItemEnchantments.Mutable mutable =
                         new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
 
-                switch (sharpLevel) {
+                switch (sharpLevelStored) {
                     case 5: {
                         mutable.set(sharpness, 6);
                         book.set(DataComponents.STORED_ENCHANTMENTS, mutable.toImmutable());
@@ -213,7 +210,6 @@ public class TestCraftingMenu extends AbstractContainerMenu {
                     }
                     case 10: {
                         //TEMP
-                        Holder<Enchantment> vorpal = ModEnchantments.getHolder(level, ModEnchantments.VORPAL);
                         mutable.set(vorpal, 1);
                         book.set(DataComponents.STORED_ENCHANTMENTS, mutable.toImmutable());
                         output.setItem(0, book);
