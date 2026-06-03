@@ -21,6 +21,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.gamerules.GameRules;
 import net.monkeyskl.inscriptions.item.ModItems;
+import net.monkeyskl.inscriptions.particle.ModParticles;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,6 +111,7 @@ public class DummyEntity extends ArmorStand {
 
         // Temporary replacement for NumberParticle
         if (level instanceof ServerLevel) {
+            level.addParticle(ModParticles.NUMBER_PARTICLE,  this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
 
             DAMAGE_DISPLAYS.removeIf(e -> e == null || e.isRemoved());
 
