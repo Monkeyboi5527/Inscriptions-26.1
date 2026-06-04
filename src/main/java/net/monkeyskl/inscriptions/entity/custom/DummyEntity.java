@@ -23,13 +23,8 @@ import net.minecraft.world.level.gamerules.GameRules;
 import net.monkeyskl.inscriptions.item.ModItems;
 import net.monkeyskl.inscriptions.particle.ModParticles;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class DummyEntity extends ArmorStand {
-
-    private final List<Display.TextDisplay> DAMAGE_DISPLAYS = new ArrayList<>();
-    private final java.util.Map<Display.TextDisplay, Integer> DISPLAY_FADE_TICKS = new java.util.HashMap<>();
+    
 
     public DummyEntity(EntityType<? extends ArmorStand> type, Level level) {
         super(type, level);
@@ -108,40 +103,9 @@ public class DummyEntity extends ArmorStand {
 
     @Override
     public boolean hurtServer(ServerLevel level, DamageSource source, float damage) {
-
-        // Temporary replacement for NumberParticle
-        if (level instanceof ServerLevel) {
-            level.addParticle(ModParticles.NUMBER_PARTICLE,  this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
-
-            DAMAGE_DISPLAYS.removeIf(e -> e == null || e.isRemoved());
-
-            if (DAMAGE_DISPLAYS.size() >= 5) {
-                Display.TextDisplay oldest = DAMAGE_DISPLAYS.get(0);
-                if (oldest != null && !oldest.isRemoved()) {
-                    oldest.discard();
-                    DISPLAY_FADE_TICKS.remove(oldest);
-                }
-                DAMAGE_DISPLAYS.remove(0);
-            }
-
-            Display.TextDisplay display = EntityType.TEXT_DISPLAY.create(level, EntitySpawnReason.COMMAND);
-
-            if (display != null) {
-                display.setText(Component.literal(String.valueOf(Math.round(damage * 10) / 10.0)));
-
-                int slot = DAMAGE_DISPLAYS.size();
-                double xOffset = (slot - 2) * 0.5;
-
-                display.setPos(this.getX() + xOffset, this.getY() + 3, this.getZ());
-                display.setBillboardConstraints(Display.BillboardConstraints.CENTER);
-                display.setDeltaMovement(0, 0.04, 0);
-                display.setTextOpacity((byte) 255);
-
-                level.addFreshEntity(display);
-                DAMAGE_DISPLAYS.add(display);
-                DISPLAY_FADE_TICKS.put(display, 30);
-            }
-        }
+        
+        
+        
         if (this.isRemoved()) {
             return false;
         } else if (!level.getGameRules().get(GameRules.MOB_GRIEFING) && source.getEntity() instanceof Mob) {
@@ -184,6 +148,17 @@ public class DummyEntity extends ArmorStand {
                 if (source.getEntity() instanceof Player player) {
                     player.sendSystemMessage(Component.literal(player.getName().getString() + " dealt " + Math.round(damage * 10) / 10.0 + " hearts of damage"));
                 }
+
+                int damageDisplay = Math.round(damage);
+                level.sendParticles(
+                        ModParticles.NUMBER_PARTICLE,
+                        this.getX(), this.getY() + 1.5, this.getZ(),
+                        1,        
+                        0.0,      
+                        0.0,      
+                        0.0,      
+                        damageDisplay  
+                );
                 
                 long time = level.getGameTime();
                 long timeSinceHit = time - this.lastHit;
@@ -219,25 +194,5 @@ public class DummyEntity extends ArmorStand {
         return super.getArmorValue();
     }
 
-    @Override
-    public void tick() {
-        super.tick();
-        if (!this.level().isClientSide()) {
-            DISPLAY_FADE_TICKS.entrySet().removeIf(entry -> {
-                Display.TextDisplay d = entry.getKey();
-                int ticksLeft = entry.getValue();
-
-                if (d.isRemoved() || ticksLeft <= 0) {
-                    if (!d.isRemoved()) d.discard();
-                    DAMAGE_DISPLAYS.remove(d);
-                    return true;
-                }
-
-                byte opacity = (byte)(int)((ticksLeft / 30.0) * 255);
-                d.setTextOpacity(opacity);
-                entry.setValue(ticksLeft - 1);
-                return false;
-            });
-        }
-    }
+    
 }

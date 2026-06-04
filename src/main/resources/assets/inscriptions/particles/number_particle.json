@@ -1,5 +1,14 @@
 {
   "textures": [
-    "inscriptions:number_particle"
+    "inscriptions:number_particle_0",
+    "inscriptions:number_particle_1",
+    "inscriptions:number_particle_2",
+    "inscriptions:number_particle_3",
+    "inscriptions:number_particle_4",
+    "inscriptions:number_particle_5",
+    "inscriptions:number_particle_6",
+    "inscriptions:number_particle_7",
+    "inscriptions:number_particle_8",
+    "inscriptions:number_particle_9"
   ]
 }
