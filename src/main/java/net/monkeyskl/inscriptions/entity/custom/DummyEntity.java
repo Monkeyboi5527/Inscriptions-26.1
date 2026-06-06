@@ -1,10 +1,12 @@
 package net.monkeyskl.inscriptions.entity.custom;
 
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
@@ -21,6 +23,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.gamerules.GameRules;
 import net.monkeyskl.inscriptions.item.ModItems;
+import net.monkeyskl.inscriptions.network.NumberParticlePayLoad;
 import net.monkeyskl.inscriptions.particle.ModParticles;
 
 public class DummyEntity extends ArmorStand {
@@ -149,15 +152,9 @@ public class DummyEntity extends ArmorStand {
                     player.sendSystemMessage(Component.literal(player.getName().getString() + " dealt " + Math.round(damage * 10) / 10.0 + " hearts of damage"));
                 }
 
-                int damageDisplay = Math.round(damage);
-                level.sendParticles(
-                        ModParticles.NUMBER_PARTICLE,
-                        this.getX(), this.getY() + 1.5, this.getZ(),
-                        1,        
-                        0.0,      
-                        0.0,      
-                        0.0,      
-                        damageDisplay  
+                ServerPlayNetworking.send(
+                        (ServerPlayer) source.getEntity(), 
+                        new NumberParticlePayLoad(this.getId(), damage)
                 );
                 
                 long time = level.getGameTime();

@@ -2,6 +2,8 @@ package net.monkeyskl.inscriptions;
 
 import net.fabricmc.api.ModInitializer;
 
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.monkeyskl.inscriptions.block.ModBlocks;
 import net.monkeyskl.inscriptions.block.entity.ModBlockEntities;
 import net.monkeyskl.inscriptions.enchantment.ModEnchantmentEffects;
@@ -9,6 +11,7 @@ import net.monkeyskl.inscriptions.entity.ModEntities;
 import net.monkeyskl.inscriptions.item.ModCreativeModeTab;
 import net.monkeyskl.inscriptions.item.ModItems;
 import net.monkeyskl.inscriptions.menu.ModMenuTypes;
+import net.monkeyskl.inscriptions.network.NumberParticlePayLoad;
 import net.monkeyskl.inscriptions.particle.ModParticles;
 import net.monkeyskl.inscriptions.recipe.ModRecipes;
 import org.slf4j.Logger;
