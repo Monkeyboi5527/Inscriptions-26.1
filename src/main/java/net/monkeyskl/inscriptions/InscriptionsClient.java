@@ -42,6 +42,7 @@ public class InscriptionsClient implements ClientModInitializer {
         PayloadTypeRegistry.clientboundPlay().register(NumberParticlePayLoad.TYPE, NumberParticlePayLoad.CODEC);
        
         ClientPlayNetworking.registerGlobalReceiver(NumberParticlePayLoad.TYPE, (payload, context) -> {
+            Inscriptions.LOGGER.info("Received damage packet: entityId={}, damage={}", payload.entityId(), payload.damage());
             ClientLevel level = context.client().level;
             if (level == null) return;
             var entity = level.getEntity(payload.entityId());

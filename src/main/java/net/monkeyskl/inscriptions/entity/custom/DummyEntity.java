@@ -22,6 +22,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.gamerules.GameRules;
+import net.monkeyskl.inscriptions.Inscriptions;
 import net.monkeyskl.inscriptions.item.ModItems;
 import net.monkeyskl.inscriptions.network.NumberParticlePayLoad;
 import net.monkeyskl.inscriptions.particle.ModParticles;
@@ -152,6 +153,7 @@ public class DummyEntity extends ArmorStand {
                     player.sendSystemMessage(Component.literal(player.getName().getString() + " dealt " + Math.round(damage * 10) / 10.0 + " hearts of damage"));
                 }
 
+                Inscriptions.LOGGER.info("Sending damage packet: entityId={}, damage={}", this.getId(), damage);
                 ServerPlayNetworking.send(
                         (ServerPlayer) source.getEntity(), 
                         new NumberParticlePayLoad(this.getId(), damage)
