@@ -25,7 +25,6 @@ import net.minecraft.world.level.gamerules.GameRules;
 import net.monkeyskl.inscriptions.Inscriptions;
 import net.monkeyskl.inscriptions.item.ModItems;
 import net.monkeyskl.inscriptions.network.NumberParticlePayLoad;
-import net.monkeyskl.inscriptions.particle.ModParticles;
 
 public class DummyEntity extends ArmorStand {
     
