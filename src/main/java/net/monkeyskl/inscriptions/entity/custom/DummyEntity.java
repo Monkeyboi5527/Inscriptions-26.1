@@ -152,6 +152,7 @@ public class DummyEntity extends ArmorStand {
                     player.sendSystemMessage(Component.literal(player.getName().getString() + " dealt " + Math.round(damage * 10) / 10.0 + " hearts of damage"));
                 }
 
+                // Number particle testing
                 Inscriptions.LOGGER.info("Sending damage packet: entityId={}, damage={}", this.getId(), damage);
                 ServerPlayNetworking.send(
                         (ServerPlayer) source.getEntity(), 
